@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Sorting</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 420px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+        }
+
+        .asc {
+            background: #198754;
+        }
+
+        .desc {
+            background: #dc3545;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Number Sorting</h2>
+
+        <input type="text" id="numbers" placeholder="Enter numbers (e.g. 5,2,8,1,9)">
+
+        <button class="asc" onclick="sortAscending()">
+            Sort Ascending
+        </button>
+
+        <button class="desc" onclick="sortDescending()">
+            Sort Descending
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        function getNumbers() {
+
+            let input = document.getElementById("numbers").value;
+
+            return input.split(",").map(Number);
+
+        }
+
+        function sortAscending() {
+
+            let numbers = getNumbers();
+
+            numbers.sort(function (a, b) {
+                return a - b;
+            });
+
+            document.getElementById("result").innerHTML =
+                "Ascending: " + numbers.join(", ");
+
+        }
+
+        function sortDescending() {
+
+            let numbers = getNumbers();
+
+            numbers.sort(function (a, b) {
+                return b - a;
+            });
+
+            document.getElementById("result").innerHTML =
+                "Descending: " + numbers.join(", ");
+
+        }
+
+    </script>
+
+</body>
+
+</html>

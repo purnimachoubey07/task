@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure CSS FAQ Accordion</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* FAQ Box */
+        details {
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* Question */
+        summary {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            list-style: none;
+        }
+
+        summary:hover {
+            background: #388E3C;
+        }
+
+        /* Answer */
+        details p {
+            padding: 15px;
+            color: #444;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Frequently Asked Questions</h1>
+
+        <details>
+            <summary>What is HTML?</summary>
+            <p>HTML (HyperText Markup Language) is used to create the structure of web pages.</p>
+        </details>
+
+        <details>
+            <summary>What is CSS?</summary>
+            <p>CSS (Cascading Style Sheets) is used to style and design web pages.</p>
+        </details>
+
+        <details>
+            <summary>What is JavaScript?</summary>
+            <p>JavaScript is a scripting language used to make web pages interactive.</p>
+        </details>
+
+        <details>
+            <summary>What is Flexbox?</summary>
+            <p>Flexbox is a CSS layout model used to arrange elements in rows or columns.</p>
+        </details>
+
+    </div>
+
+</body>
+
+</html>

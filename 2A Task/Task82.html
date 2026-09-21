@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Loader</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff7ed;
+            color: #431407;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #9a3412;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #78716c;
+            font-size: 16px;
+        }
+
+        .button-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: #c2410c;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #9a3412;
+        }
+
+        /* Loading Spinner */
+
+        #loader {
+            display: none;
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .spinner {
+            width: 55px;
+            height: 55px;
+            border: 6px solid #fed7aa;
+            border-top: 6px solid #c2410c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        #loader p {
+            margin-top: 15px;
+            color: #9a3412;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        #status {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .user-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #fed7aa;
+            box-shadow: 0 8px 20px rgba(154, 52, 18, 0.08);
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #ffedd5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .user-card h2 {
+            color: #9a3412;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            color: #57534e;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .user-info strong {
+            color: #292524;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        @media (max-width: 800px) {
+
+            .users-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>⚡ API User Loader</h1>
+
+            <p>
+                Fetch user data with a loading spinner
+            </p>
+
+        </div>
+
+
+        <div class="button-area">
+
+            <button onclick="loadUsers()">
+                Load Users
+            </button>
+
+        </div>
+
+
+        <!-- Loading Spinner -->
+
+        <div id="loader">
+
+            <div class="spinner"></div>
+
+            <p>Loading user data...</p>
+
+        </div>
+
+
+        <div id="status"></div>
+
+
+        <!-- Users will appear here -->
+
+        <div id="usersContainer" class="users-grid"></div>
+
+    </div>
+
+
+    <script>
+
+        const apiURL =
+            "https://jsonplaceholder.typicode.com/users";
+
+
+        async function loadUsers() {
+
+            const loader =
+                document.getElementById("loader");
+
+            const usersContainer =
+                document.getElementById("usersContainer");
+
+            const status =
+                document.getElementById("status");
+
+
+            // Clear previous data
+
+            usersContainer.innerHTML = "";
+
+            status.textContent = "";
+
+
+            // Show loader
+
+            loader.style.display = "block";
+
+
+            try {
+
+                // API call
+
+                const response =
+                    await fetch(apiURL);
+
+
+                // Check response
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to fetch data"
+                    );
+
+                }
+
+
+                // Convert response into JSON
+
+                const users =
+                    await response.json();
+
+
+                // Display users
+
+                users.forEach(function(user) {
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "user-card";
+
+
+                    card.innerHTML = `
+
+                        <div class="user-icon">
+                            👤
+                        </div>
+
+                        <h2>
+                            ${user.name}
+                        </h2>
+
+                        <div class="user-info">
+                            <strong>Username:</strong>
+                            ${user.username}
+                        </div>
+
+                        <div class="user-info">
+                            <strong>Email:</strong>
+                            ${user.email}
+                        </div>
+
+                        <div class="user-info">
+                            <strong>Phone:</strong>
+                            ${user.phone}
+                        </div>
+
+                        <div class="user-info">
+                            <strong>City:</strong>
+                            ${user.address.city}
+                        </div>
+
+                        <div class="user-info">
+                            <strong>Company:</strong>
+                            ${user.company.name}
+                        </div>
+
+                    `;
+
+
+                    usersContainer.appendChild(card);
+
+                });
+
+
+                status.textContent =
+                    `${users.length} users loaded successfully.`;
+
+
+            }
+
+            catch (error) {
+
+                status.textContent =
+                    "❌ Failed to load user data.";
+
+                status.className = "error";
+
+                console.error(error);
+
+            }
+
+
+            finally {
+
+                // Hide loader
+
+                loader.style.display = "none";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

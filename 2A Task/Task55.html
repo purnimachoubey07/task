@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Live Search Filter</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f0fdf4;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* HEADING */
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* SEARCH BOX */
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 35px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 15px 50px 15px 18px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: white;
+
+            font-size: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #166534;
+
+            box-shadow:
+                0 0 0 3px rgba(22, 101, 52, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+
+            right: 18px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 20px;
+
+            color: #166534;
+        }
+
+        /* CARD GRID */
+
+        .card-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+        /* CARD */
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.07);
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 14px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        .card-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        .card h2 {
+            font-size: 19px;
+
+            color: #1f2937;
+
+            margin-bottom: 9px;
+        }
+
+        .card p {
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            color: #6b7280;
+        }
+
+        /* NO RESULT */
+
+        .no-result {
+            display: none;
+
+            text-align: center;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 12px;
+
+            color: #6b7280;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .no-result h2 {
+            color: #1f2937;
+
+            margin-bottom: 8px;
+        }
+
+        /* RESULT COUNT */
+
+        .result-count {
+            text-align: center;
+
+            margin-bottom: 20px;
+
+            color: #166534;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .card-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            body {
+                padding: 30px 15px;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                Explore Our Services
+            </h1>
+
+            <p>
+                Start typing to search services instantly
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search services..."
+                autocomplete="off">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+        </div>
+
+
+        <!-- RESULT COUNT -->
+
+        <div
+            class="result-count"
+            id="resultCount">
+
+            Showing 6 services
+
+        </div>
+
+
+        <!-- CARDS -->
+
+        <div
+            class="card-container"
+            id="cardContainer">
+
+
+            <!-- CARD 1 -->
+
+            <div
+                class="card"
+                data-name="Web Development">
+
+                <div class="card-icon">
+                    💻
+                </div>
+
+                <h2>
+                    Web Development
+                </h2>
+
+                <p>
+                    Build modern and responsive websites
+                    using HTML, CSS and JavaScript.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 2 -->
+
+            <div
+                class="card"
+                data-name="App Development">
+
+                <div class="card-icon">
+                    📱
+                </div>
+
+                <h2>
+                    App Development
+                </h2>
+
+                <p>
+                    Create powerful and user-friendly
+                    mobile applications.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 3 -->
+
+            <div
+                class="card"
+                data-name="UI UX Design">
+
+                <div class="card-icon">
+                    🎨
+                </div>
+
+                <h2>
+                    UI/UX Design
+                </h2>
+
+                <p>
+                    Design attractive and easy-to-use
+                    digital experiences.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 4 -->
+
+            <div
+                class="card"
+                data-name="Digital Marketing">
+
+                <div class="card-icon">
+                    📈
+                </div>
+
+                <h2>
+                    Digital Marketing
+                </h2>
+
+                <p>
+                    Promote your business and reach
+                    more customers online.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 5 -->
+
+            <div
+                class="card"
+                data-name="Graphic Design">
+
+                <div class="card-icon">
+                    🖌️
+                </div>
+
+                <h2>
+                    Graphic Design
+                </h2>
+
+                <p>
+                    Create creative graphics, posters
+                    and visual content.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 6 -->
+
+            <div
+                class="card"
+                data-name="Database Management">
+
+                <div class="card-icon">
+                    🗄️
+                </div>
+
+                <h2>
+                    Database Management
+                </h2>
+
+                <p>
+                    Manage and organize application
+                    data efficiently and securely.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- NO RESULT -->
+
+        <div
+            class="no-result"
+            id="noResult">
+
+            <h2>
+                No Results Found
+            </h2>
+
+            <p>
+                Try searching for another service.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+        // ==============================
+        // GET ELEMENTS
+        // ==============================
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const cards =
+            document.querySelectorAll(".card");
+
+        const resultCount =
+            document.getElementById("resultCount");
+
+        const noResult =
+            document.getElementById("noResult");
+
+
+        // ==============================
+        // LIVE SEARCH
+        // ==============================
+
+        searchInput.addEventListener("input", function () {
+
+
+            // Get search value
+
+            const searchValue =
+                searchInput.value.toLowerCase().trim();
+
+
+            let visibleCards = 0;
+
+
+            // Check every card
+
+            cards.forEach(function(card) {
+
+
+                // Get card name
+
+                const cardName =
+                    card
+                    .getAttribute("data-name")
+                    .toLowerCase();
+
+
+                // Check search
+
+                if (cardName.includes(searchValue)) {
+
+                    card.style.display = "block";
+
+                    visibleCards++;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            // Update result count
+
+            if (searchValue === "") {
+
+                resultCount.textContent =
+                    "Showing " + cards.length + " services";
+
+            } else {
+
+                resultCount.textContent =
+                    "Found " + visibleCards + " service(s)";
+
+            }
+
+
+            // Show / hide no result
+
+            if (visibleCards === 0) {
+
+                noResult.style.display = "block";
+
+            } else {
+
+                noResult.style.display = "none";
+
+            }
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

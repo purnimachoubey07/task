@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Accessible Navigation Bar</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus {
+            background: #555;
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width:768px) {
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Landmark -->
+    <header role="banner">
+
+        <!-- Navigation Landmark -->
+        <nav role="navigation" aria-label="Main Navigation">
+
+            <div class="logo">My Portfolio</div>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <!-- Main Landmark -->
+    <main role="main">
+        <section id="home">
+            <h1>Welcome</h1>
+            <p>This is a responsive and accessible navigation bar example.</p>
+        </section>
+    </main>
+
+    <!-- Footer Landmark -->
+    <footer role="contentinfo">
+        <p>&copy; 2026 My Portfolio. All Rights Reserved.</p>
+    </footer>
+
+</body>
+
+</html>

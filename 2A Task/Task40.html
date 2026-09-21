@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Methods</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            background: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0b5ed7;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Student Marks - Array Methods</h2>
+
+        <button onclick="showMap()">Map()</button>
+
+        <button onclick="showFilter()">Filter()</button>
+
+        <button onclick="showReduce()">Reduce()</button>
+
+        <pre id="output"></pre>
+
+    </div>
+
+    <script>
+
+        // Student Data
+        const students = [
+            { name: "Amit", marks: 85 },
+            { name: "Priya", marks: 65 },
+            { name: "Rahul", marks: 90 },
+            { name: "Neha", marks: 45 },
+            { name: "Riya", marks: 75 }
+        ];
+
+        // map()
+        function showMap() {
+
+            let result = students.map(student =>
+
+                student.name + " : " + student.marks
+
+            );
+
+            document.getElementById("output").textContent =
+                result.join("\n");
+
+        }
+
+        // filter()
+        function showFilter() {
+
+            let result = students.filter(student =>
+
+                student.marks >= 60
+
+            );
+
+            document.getElementById("output").textContent =
+                JSON.stringify(result, null, 2);
+
+        }
+
+        // reduce()
+        function showReduce() {
+
+            let total = students.reduce(function (sum, student) {
+
+                return sum + student.marks;
+
+            }, 0);
+
+            document.getElementById("output").textContent =
+                "Total Marks = " + total;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

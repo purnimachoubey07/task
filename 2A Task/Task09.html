@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 400px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0 15px;
+        }
+
+        input[type="submit"] {
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: darkgreen;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Event Registration Form</h2>
+
+        <form>
+
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required pattern="[A-Za-z ]{3,30}"
+                placeholder="Enter your full name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}"
+                placeholder="Enter 10-digit phone number">
+
+            <label for="date">Event Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="event">Event Type:</label>
+            <select id="event" name="event" required>
+                <option value="">--Select Event--</option>
+                <option>Workshop</option>
+                <option>Seminar</option>
+                <option>Conference</option>
+            </select>
+
+            <input type="submit" value="Register">
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

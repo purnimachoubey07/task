@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Toast Notification System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #eff6ff;
+            color: #1e293b;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .container {
+            width: 600px;
+
+            background: white;
+
+            padding: 45px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #1e3a8a;
+
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #64748b;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            border: none;
+
+            padding: 13px 22px;
+
+            border-radius: 9px;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .success-btn {
+            background: #16a34a;
+        }
+
+        .success-btn:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .error-btn {
+            background: #dc2626;
+        }
+
+        .error-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .warning-btn {
+            background: #d97706;
+        }
+
+        .warning-btn:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+        }
+
+        .info-btn {
+            background: #2563eb;
+        }
+
+        .info-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           TOAST CONTAINER
+        ========================= */
+
+        #toastContainer {
+            position: fixed;
+
+            top: 25px;
+            right: 25px;
+
+            width: 350px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+            z-index: 1000;
+        }
+
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            background: white;
+
+            padding: 17px 18px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+            border-left: 5px solid;
+
+            animation: slideIn 0.4s ease;
+        }
+
+        .toast-icon {
+            font-size: 24px;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 15px;
+
+            font-weight: bold;
+
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 13px;
+
+            color: #64748b;
+
+            line-height: 1.4;
+        }
+
+        .close-btn {
+            background: none;
+
+            border: none;
+
+            font-size: 20px;
+
+            color: #64748b;
+
+            cursor: pointer;
+
+            padding: 2px;
+        }
+
+        .close-btn:hover {
+            color: #1e293b;
+        }
+
+
+        /* =========================
+           TOAST TYPES
+        ========================= */
+
+        .toast.success {
+            border-color: #16a34a;
+        }
+
+        .toast.success .toast-title {
+            color: #15803d;
+        }
+
+
+        .toast.error {
+            border-color: #dc2626;
+        }
+
+        .toast.error .toast-title {
+            color: #b91c1c;
+        }
+
+
+        .toast.warning {
+            border-color: #d97706;
+        }
+
+        .toast.warning .toast-title {
+            color: #b45309;
+        }
+
+
+        .toast.info {
+            border-color: #2563eb;
+        }
+
+        .toast.info .toast-title {
+            color: #1d4ed8;
+        }
+
+
+        /* =========================
+           ANIMATION
+        ========================= */
+
+        @keyframes slideIn {
+
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+        }
+
+        .toast.hide {
+            animation: slideOut 0.4s ease forwards;
+        }
+
+        @keyframes slideOut {
+
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 100%;
+                padding: 35px 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            #toastContainer {
+                left: 15px;
+                right: 15px;
+
+                top: 15px;
+
+                width: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <h1>
+            Toast Notifications
+        </h1>
+
+        <p class="description">
+            Click any button below to display different types
+            of toast notifications.
+        </p>
+
+
+        <div class="buttons">
+
+            <button
+                class="success-btn"
+                onclick="showToast('success')">
+
+                Success
+
+            </button>
+
+
+            <button
+                class="error-btn"
+                onclick="showToast('error')">
+
+                Error
+
+            </button>
+
+
+            <button
+                class="warning-btn"
+                onclick="showToast('warning')">
+
+                Warning
+
+            </button>
+
+
+            <button
+                class="info-btn"
+                onclick="showToast('info')">
+
+                Information
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Toast Notifications Will Appear Here -->
+
+    <div id="toastContainer"></div>
+
+
+    <script>
+
+        function showToast(type) {
+
+            const toastContainer =
+                document.getElementById("toastContainer");
+
+
+            let icon;
+            let title;
+            let message;
+
+
+            /* =========================
+               NOTIFICATION DATA
+            ========================= */
+
+            if (type === "success") {
+
+                icon = "✅";
+                title = "Success";
+                message = "Your action was completed successfully.";
+
+            }
+
+            else if (type === "error") {
+
+                icon = "❌";
+                title = "Error";
+                message = "Something went wrong. Please try again.";
+
+            }
+
+            else if (type === "warning") {
+
+                icon = "⚠️";
+                title = "Warning";
+                message = "Please check the information carefully.";
+
+            }
+
+            else if (type === "info") {
+
+                icon = "ℹ️";
+                title = "Information";
+                message = "Here is some important information for you.";
+
+            }
+
+
+            /* =========================
+               CREATE TOAST
+            ========================= */
+
+            const toast =
+                document.createElement("div");
+
+            toast.className = `toast ${type}`;
+
+
+            toast.innerHTML = `
+
+                <div class="toast-icon">
+                    ${icon}
+                </div>
+
+                <div class="toast-content">
+
+                    <div class="toast-title">
+                        ${title}
+                    </div>
+
+                    <div class="toast-message">
+                        ${message}
+                    </div>
+
+                </div>
+
+                <button
+                    class="close-btn"
+                    onclick="removeToast(this)">
+
+                    ×
+
+                </button>
+
+            `;
+
+
+            toastContainer.appendChild(toast);
+
+
+            /* =========================
+               AUTO REMOVE
+            ========================= */
+
+            setTimeout(function () {
+
+                removeToast(toast);
+
+            }, 4000);
+
+        }
+
+
+        /* =========================
+           REMOVE TOAST
+        ========================= */
+
+        function removeToast(toast) {
+
+            // If button was clicked,
+            // get its parent toast
+
+            if (toast.tagName === "BUTTON") {
+
+                toast = toast.parentElement;
+
+            }
+
+
+            toast.classList.add("hide");
+
+
+            setTimeout(function () {
+
+                toast.remove();
+
+            }, 400);
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

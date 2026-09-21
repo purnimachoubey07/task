@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stopwatch Application</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fefce8;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .stopwatch-container {
+            width: 500px;
+            background: white;
+
+            padding: 45px 40px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .stopwatch-container h1 {
+            color: #854d0e;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .timer {
+            background: #fef9c3;
+
+            border: 2px solid #fde68a;
+
+            border-radius: 15px;
+
+            padding: 30px 15px;
+
+            margin-bottom: 30px;
+        }
+
+        .timer-display {
+            font-size: 55px;
+            font-weight: bold;
+
+            color: #713f12;
+
+            letter-spacing: 4px;
+        }
+
+        .milliseconds {
+            font-size: 22px;
+            color: #a16207;
+
+            margin-top: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            border: none;
+
+            padding: 13px 28px;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .start-btn {
+            background: #65a30d;
+            color: white;
+        }
+
+        .start-btn:hover {
+            background: #4d7c0f;
+            transform: translateY(-2px);
+        }
+
+        .pause-btn {
+            background: #d97706;
+            color: white;
+        }
+
+        .pause-btn:hover {
+            background: #b45309;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .status {
+            margin-top: 25px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            color: #78716c;
+        }
+
+        @media (max-width: 550px) {
+
+            .stopwatch-container {
+                width: 100%;
+                padding: 35px 20px;
+            }
+
+            .stopwatch-container h1 {
+                font-size: 27px;
+            }
+
+            .timer-display {
+                font-size: 40px;
+                letter-spacing: 2px;
+            }
+
+            .milliseconds {
+                font-size: 18px;
+            }
+
+            .buttons button {
+                padding: 12px 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="stopwatch-container">
+
+        <h1>Stopwatch</h1>
+
+        <div class="timer">
+
+            <div class="timer-display" id="display">
+                00:00:00
+            </div>
+
+            <div class="milliseconds" id="milliseconds">
+                000 ms
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <button class="start-btn" onclick="startStopwatch()">
+                Start
+            </button>
+
+            <button class="pause-btn" onclick="pauseStopwatch()">
+                Pause
+            </button>
+
+            <button class="reset-btn" onclick="resetStopwatch()">
+                Reset
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+            Stopwatch is ready
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let startTime = 0;
+        let elapsedTime = 0;
+        let timerInterval = null;
+
+
+        function startStopwatch() {
+
+            // Prevent multiple timers
+            if (timerInterval !== null) {
+                return;
+            }
+
+            startTime = Date.now() - elapsedTime;
+
+            timerInterval = setInterval(updateStopwatch, 10);
+
+            document.getElementById("status").textContent =
+                "Stopwatch is running...";
+        }
+
+
+        function pauseStopwatch() {
+
+            if (timerInterval === null) {
+                return;
+            }
+
+            clearInterval(timerInterval);
+
+            timerInterval = null;
+
+            document.getElementById("status").textContent =
+                "Stopwatch is paused";
+        }
+
+
+        function resetStopwatch() {
+
+            clearInterval(timerInterval);
+
+            timerInterval = null;
+
+            elapsedTime = 0;
+
+            document.getElementById("display").textContent =
+                "00:00:00";
+
+            document.getElementById("milliseconds").textContent =
+                "000 ms";
+
+            document.getElementById("status").textContent =
+                "Stopwatch is ready";
+        }
+
+
+        function updateStopwatch() {
+
+            elapsedTime = Date.now() - startTime;
+
+            let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+
+            let minutes = Math.floor(
+                (elapsedTime % (1000 * 60 * 60)) / (1000 * 60)
+            );
+
+            let seconds = Math.floor(
+                (elapsedTime % (1000 * 60)) / 1000
+            );
+
+            let milliseconds = elapsedTime % 1000;
+
+
+            hours = String(hours).padStart(2, "0");
+
+            minutes = String(minutes).padStart(2, "0");
+
+            seconds = String(seconds).padStart(2, "0");
+
+
+            document.getElementById("display").textContent =
+                `${hours}:${minutes}:${seconds}`;
+
+
+            document.getElementById("milliseconds").textContent =
+                `${String(milliseconds).padStart(3, "0")} ms`;
+        }
+
+    </script>
+
+</body>
+</html>

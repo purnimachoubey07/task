@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Resend Timer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 350px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        #timer {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>OTP Verification</h2>
+
+        <p>Click the button to send OTP.</p>
+
+        <button id="otpBtn" onclick="sendOTP()">
+            Send OTP
+        </button>
+
+        <p id="timer"></p>
+
+    </div>
+
+    <script>
+
+        function sendOTP() {
+
+            const button = document.getElementById("otpBtn");
+            const timerText = document.getElementById("timer");
+
+            button.disabled = true;
+            button.innerHTML = "OTP Sent";
+
+            let timeLeft = 30;
+
+            countdown();
+
+            function countdown() {
+
+                timerText.innerHTML = "Resend OTP in " + timeLeft + " sec";
+
+                if (timeLeft > 0) {
+
+                    timeLeft--;
+
+                    setTimeout(countdown, 1000);
+
+                }
+                else {
+
+                    timerText.innerHTML = "";
+
+                    button.disabled = false;
+                    button.innerHTML = "Resend OTP";
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

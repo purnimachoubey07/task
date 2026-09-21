@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Navbar</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: #3498db;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        /* Shadow when scrolling */
+        .navbar.scrolled {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-left: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+
+        .section {
+            height: 600px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <h2>My Website</h2>
+
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="content">
+
+        <div class="section">
+            <h2>Welcome</h2>
+            <p>Scroll down to see the sticky navigation bar with shadow.</p>
+        </div>
+
+        <div class="section">
+            <h2>About</h2>
+            <p>This section provides more content for scrolling.</p>
+        </div>
+
+    </div>
+
+    <script>
+
+        // Add shadow when page is scrolled
+        window.addEventListener("scroll", function () {
+
+            let navbar = document.getElementById("navbar");
+
+            if (window.scrollY > 0) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

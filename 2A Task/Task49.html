@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 380px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0b5ed7;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Palindrome Checker</h2>
+
+        <input type="text" id="text" placeholder="Enter a word">
+
+        <button onclick="checkPalindrome()">
+            Check
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        function checkPalindrome() {
+
+            let text = document.getElementById("text").value.toLowerCase().trim();
+
+            let reversed = text.split("").reverse().join("");
+
+            let result = document.getElementById("result");
+
+            if (text === reversed) {
+
+                result.innerHTML = "✅ It is a Palindrome";
+                result.style.color = "green";
+
+            }
+            else {
+
+                result.innerHTML = "❌ It is Not a Palindrome";
+                result.style.color = "red";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

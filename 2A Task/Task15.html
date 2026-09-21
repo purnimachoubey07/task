@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        /* Grid Container */
+        .container {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            grid-template-rows: 70px 1fr 60px;
+            grid-template-areas:
+                "header header"
+                "sidebar main"
+                "footer footer";
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            grid-area: header;
+            background: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            grid-area: sidebar;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 10px 0;
+        }
+
+        /* Main Content */
+        .main {
+            grid-area: main;
+            padding: 20px;
+        }
+
+        /* Dashboard Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            grid-area: footer;
+            background: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <h1>Dashboard</h1>
+        </header>
+
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li>Home</li>
+                <li>Profile</li>
+                <li>Reports</li>
+                <li>Settings</li>
+            </ul>
+        </aside>
+
+        <main class="main">
+            <h2>Dashboard Overview</h2>
+            <br>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Users</h3>
+                    <p>120</p>
+                </div>
+
+                <div class="card">
+                    <h3>Orders</h3>
+                    <p>75</p>
+                </div>
+
+                <div class="card">
+                    <h3>Revenue</h3>
+                    <p>₹50,000</p>
+                </div>
+
+                <div class="card">
+                    <h3>Feedback</h3>
+                    <p>35</p>
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 Dashboard | All Rights Reserved</p>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

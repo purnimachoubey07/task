@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Accessible Dropdown</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            background: #f1f1f1;
+            min-width: 180px;
+            border: 1px solid #ccc;
+        }
+
+        .menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .menu a:hover,
+        .menu a:focus {
+            background: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Keyboard Accessible Dropdown Menu</h2>
+
+    <div class="dropdown">
+
+        <button id="menuButton" aria-haspopup="true" aria-expanded="false">
+            Menu
+        </button>
+
+        <div class="menu" id="dropdownMenu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </div>
+
+    </div>
+
+    <script>
+
+        const button = document.getElementById("menuButton");
+        const menu = document.getElementById("dropdownMenu");
+
+        // Open/Close Menu
+        button.addEventListener("click", toggleMenu);
+
+        button.addEventListener("keydown", function (event) {
+
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleMenu();
+            }
+
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+
+        });
+
+        function toggleMenu() {
+
+            menu.classList.toggle("show");
+
+            let expanded = menu.classList.contains("show");
+
+            button.setAttribute("aria-expanded", expanded);
+
+            if (expanded) {
+                menu.querySelector("a").focus();
+            }
+        }
+
+        function closeMenu() {
+
+            menu.classList.remove("show");
+
+            button.setAttribute("aria-expanded", "false");
+
+            button.focus();
+        }
+
+        document.addEventListener("keydown", function (event) {
+
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

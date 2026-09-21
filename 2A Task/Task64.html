@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Theme Switcher</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: #ecfdf5;
+            color: #064e3b;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            transition: 0.4s;
+        }
+
+        .container {
+            width: 600px;
+
+            background: #ffffff;
+
+            padding: 45px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+
+            transition: 0.4s;
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+
+            transition: 0.4s;
+        }
+
+        .theme-btn {
+            border: none;
+
+            background: #059669;
+            color: white;
+
+            padding: 14px 28px;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .theme-btn:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+
+        .theme-status {
+            margin-top: 25px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            color: #059669;
+        }
+
+
+        /* =========================
+           DARK THEME
+        ========================= */
+
+        body.dark {
+            background: #111827;
+            color: #f9fafb;
+        }
+
+        body.dark .container {
+            background: #1f2937;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark p {
+            color: #d1d5db;
+        }
+
+        body.dark .theme-btn {
+            background: #f59e0b;
+            color: #111827;
+        }
+
+        body.dark .theme-btn:hover {
+            background: #d97706;
+        }
+
+        body.dark .theme-status {
+            color: #fbbf24;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .container {
+                width: 100%;
+                padding: 35px 25px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .icon {
+                font-size: 45px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <div class="icon" id="themeIcon">
+            ☀️
+        </div>
+
+        <h1>
+            Theme Switcher
+        </h1>
+
+        <p>
+            Click the button below to switch between
+            Light Theme and Dark Theme.
+        </p>
+
+        <button
+            class="theme-btn"
+            id="themeButton"
+            onclick="toggleTheme()">
+
+            🌙 Enable Dark Mode
+
+        </button>
+
+        <div class="theme-status" id="themeStatus">
+
+            Current Theme: Light
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function toggleTheme() {
+
+            // Add or remove dark class
+            document.body.classList.toggle("dark");
+
+
+            // Get elements
+            const button =
+                document.getElementById("themeButton");
+
+            const status =
+                document.getElementById("themeStatus");
+
+            const icon =
+                document.getElementById("themeIcon");
+
+
+            // Check current theme
+            if (document.body.classList.contains("dark")) {
+
+                button.textContent =
+                    "☀️ Enable Light Mode";
+
+                status.textContent =
+                    "Current Theme: Dark";
+
+                icon.textContent = "🌙";
+
+            } else {
+
+                button.textContent =
+                    "🌙 Enable Dark Mode";
+
+                status.textContent =
+                    "Current Theme: Light";
+
+                icon.textContent = "☀️";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

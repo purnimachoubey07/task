@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Preview Before Upload</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f3ff;
+            padding: 30px;
+        }
+
+        .container {
+            width: 500px;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #6d28d9;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Upload Area */
+
+        .upload-area {
+            border: 2px dashed #c4b5fd;
+            background: #faf5ff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .upload-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 18px;
+        }
+
+        /* File Input */
+
+        #imageInput {
+            display: none;
+        }
+
+        .choose-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #6d28d9;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .choose-btn:hover {
+            background: #5b21b6;
+        }
+
+        /* Preview */
+
+        .preview-container {
+            display: none;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .preview-container h3 {
+            color: #6d28d9;
+            margin-bottom: 15px;
+        }
+
+        #imagePreview {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid #ddd6fe;
+            padding: 8px;
+            background: white;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .upload-btn,
+        .remove-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .upload-btn {
+            background: #6d28d9;
+            color: white;
+        }
+
+        .upload-btn:hover {
+            background: #5b21b6;
+        }
+
+        .remove-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .remove-btn:hover {
+            background: #fecaca;
+        }
+
+        /* Message */
+
+        #message {
+            display: none;
+            text-align: center;
+            margin-top: 18px;
+            color: #6d28d9;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 550px) {
+
+            .container {
+                width: 100%;
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <h1>Upload Image</h1>
+
+        <p class="subtitle">
+            Select an image to preview it before uploading
+        </p>
+
+
+        <!-- Upload Area -->
+
+        <div class="upload-area">
+
+            <div class="upload-icon">
+                🖼️
+            </div>
+
+            <p>
+                Choose an image from your device
+            </p>
+
+
+            <label for="imageInput" class="choose-btn">
+                Choose Image
+            </label>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <!-- Image Preview -->
+
+        <div class="preview-container" id="previewContainer">
+
+            <h3>Image Preview</h3>
+
+            <img
+                id="imagePreview"
+                src=""
+                alt="Selected Image"
+            >
+
+
+            <div class="buttons">
+
+                <button
+                    class="upload-btn"
+                    id="uploadBtn">
+                    Upload Image
+                </button>
+
+                <button
+                    class="remove-btn"
+                    id="removeBtn">
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <p id="message">
+            Image uploaded successfully!
+        </p>
+
+    </div>
+
+
+
+    <script>
+
+        /* =========================
+           SELECT ELEMENTS
+        ========================== */
+
+        const imageInput =
+            document.getElementById("imageInput");
+
+        const imagePreview =
+            document.getElementById("imagePreview");
+
+        const previewContainer =
+            document.getElementById("previewContainer");
+
+        const removeBtn =
+            document.getElementById("removeBtn");
+
+        const uploadBtn =
+            document.getElementById("uploadBtn");
+
+        const message =
+            document.getElementById("message");
+
+
+
+        /* =========================
+           IMAGE SELECT EVENT
+        ========================== */
+
+        imageInput.addEventListener("change", function () {
+
+            const file = imageInput.files[0];
+
+
+            /* Check file */
+
+            if (!file) {
+                return;
+            }
+
+
+            /* Check image type */
+
+            if (!file.type.startsWith("image/")) {
+
+                alert("Please select an image file.");
+
+                imageInput.value = "";
+
+                return;
+            }
+
+
+            /* Check file size - 5 MB */
+
+            if (file.size > 5 * 1024 * 1024) {
+
+                alert("Image size must be less than 5 MB.");
+
+                imageInput.value = "";
+
+                return;
+            }
+
+
+            /* FileReader */
+
+            const reader = new FileReader();
+
+
+            reader.onload = function (event) {
+
+                imagePreview.src =
+                    event.target.result;
+
+                previewContainer.style.display =
+                    "block";
+
+                message.style.display =
+                    "none";
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+
+        /* =========================
+           REMOVE IMAGE
+        ========================== */
+
+        removeBtn.addEventListener("click", function () {
+
+            imageInput.value = "";
+
+            imagePreview.src = "";
+
+            previewContainer.style.display =
+                "none";
+
+            message.style.display =
+                "none";
+
+        });
+
+
+
+        /* =========================
+           UPLOAD BUTTON
+        ========================== */
+
+        uploadBtn.addEventListener("click", function () {
+
+            if (!imageInput.files[0]) {
+
+                alert("Please select an image first.");
+
+                return;
+            }
+
+
+            message.style.display =
+                "block";
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word & Character Counter</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 500px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Word & Character Counter</h2>
+
+        <textarea id="text" placeholder="Type your text here..." oninput="countText()"></textarea>
+
+        <div class="result">
+            <p>Words: <span id="wordCount">0</span></p>
+            <p>Characters: <span id="charCount">0</span></p>
+        </div>
+
+    </div>
+
+    <script>
+
+        function countText() {
+
+            let text = document.getElementById("text").value;
+
+            // Character Count
+            let characters = text.length;
+
+            // Word Count
+            let words = text.trim();
+
+            if (words === "") {
+                words = 0;
+            }
+            else {
+                words = words.split(/\s+/).length;
+            }
+
+            document.getElementById("charCount").innerHTML = characters;
+            document.getElementById("wordCount").innerHTML = words;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

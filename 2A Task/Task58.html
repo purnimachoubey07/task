@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaScript Accordion</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff7ed;
+            padding: 30px;
+        }
+
+        /* Main Container */
+
+        .container {
+            width: 750px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* Heading */
+
+        .container h1 {
+            text-align: center;
+            color: #c2410c;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+
+        /* Accordion */
+
+        .accordion {
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+
+        /* Accordion Item */
+
+        .accordion-item {
+            border-bottom: 1px solid #fed7aa;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+
+        /* Question */
+
+        .accordion-header {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            background: #ffffff;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        /* Hover */
+
+        .accordion-header:hover {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+
+        /* Active Header */
+
+        .accordion-header.active {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+
+        /* Plus / Minus Icon */
+
+        .icon {
+            font-size: 24px;
+            font-weight: normal;
+            color: #c2410c;
+            transition: 0.3s;
+        }
+
+
+        /* Answer */
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            background: #fffbeb;
+            transition: max-height 0.35s ease;
+        }
+
+
+        .accordion-content p {
+            padding: 0 20px 20px;
+            color: #555;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 100%;
+                padding: 25px 20px;
+            }
+
+            .container h1 {
+                font-size: 26px;
+            }
+
+            .accordion-header {
+                padding: 17px;
+                font-size: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <h1>Frequently Asked Questions</h1>
+
+        <p class="subtitle">
+            Click on a question to view the answer
+        </p>
+
+
+        <div class="accordion">
+
+
+            <!-- Question 1 -->
+
+            <div class="accordion-item">
+
+                <button class="accordion-header">
+
+                    What is HTML?
+
+                    <span class="icon">+</span>
+
+                </button>
+
+                <div class="accordion-content">
+
+                    <p>
+                        HTML stands for HyperText Markup Language.
+                        It is used to create the structure of
+                        web pages using different elements and tags.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 2 -->
+
+            <div class="accordion-item">
+
+                <button class="accordion-header">
+
+                    What is CSS?
+
+                    <span class="icon">+</span>
+
+                </button>
+
+                <div class="accordion-content">
+
+                    <p>
+                        CSS stands for Cascading Style Sheets.
+                        It is used to design and style HTML elements,
+                        including colors, spacing, fonts and layouts.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 3 -->
+
+            <div class="accordion-item">
+
+                <button class="accordion-header">
+
+                    What is JavaScript?
+
+                    <span class="icon">+</span>
+
+                </button>
+
+                <div class="accordion-content">
+
+                    <p>
+                        JavaScript is a programming language used
+                        to make web pages interactive and dynamic.
+                        It can handle events, manipulate the DOM
+                        and update webpage content.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 4 -->
+
+            <div class="accordion-item">
+
+                <button class="accordion-header">
+
+                    What is DOM?
+
+                    <span class="icon">+</span>
+
+                </button>
+
+                <div class="accordion-content">
+
+                    <p>
+                        DOM stands for Document Object Model.
+                        It represents an HTML document as a tree
+                        of objects that JavaScript can access and modify.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Question 5 -->
+
+            <div class="accordion-item">
+
+                <button class="accordion-header">
+
+                    Why is JavaScript used?
+
+                    <span class="icon">+</span>
+
+                </button>
+
+                <div class="accordion-content">
+
+                    <p>
+                        JavaScript is used to add interactivity
+                        to websites, such as forms, menus, sliders,
+                        modals, tabs, accordions and dynamic content.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        /* Select all accordion headers */
+
+        const accordionHeaders =
+            document.querySelectorAll(".accordion-header");
+
+
+        accordionHeaders.forEach(function (header) {
+
+            header.addEventListener("click", function () {
+
+
+                /* Check whether clicked item is already open */
+
+                const isOpen =
+                    header.classList.contains("active");
+
+
+                /* Close all accordion items */
+
+                accordionHeaders.forEach(function (item) {
+
+                    item.classList.remove("active");
+
+                    item.querySelector(".icon").textContent = "+";
+
+                    item.nextElementSibling.style.maxHeight = null;
+
+                });
+
+
+                /* Open clicked item if it was closed */
+
+                if (!isOpen) {
+
+                    header.classList.add("active");
+
+                    header.querySelector(".icon").textContent = "−";
+
+                    const content =
+                        header.nextElementSibling;
+
+                    content.style.maxHeight =
+                        content.scrollHeight + "px";
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

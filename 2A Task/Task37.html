@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 320px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        #count {
+            font-size: 50px;
+            font-weight: bold;
+            color: #0d6efd;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .increment {
+            background: #198754;
+        }
+
+        .decrement {
+            background: #dc3545;
+        }
+
+        .reset {
+            background: #6c757d;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Counter App</h2>
+
+        <div id="count">0</div>
+
+        <button class="increment" onclick="increment()">
+            Increment
+        </button>
+
+        <button class="decrement" onclick="decrement()">
+            Decrement
+        </button>
+
+        <button class="reset" onclick="resetCounter()">
+            Reset
+        </button>
+
+    </div>
+
+    <script>
+
+        let count = 0;
+
+        // Increment
+        function increment() {
+            count++;
+            document.getElementById("count").innerHTML = count;
+        }
+
+        // Decrement
+        function decrement() {
+            count--;
+            document.getElementById("count").innerHTML = count;
+        }
+
+        // Reset
+        function resetCounter() {
+            count = 0;
+            document.getElementById("count").innerHTML = count;
+        }
+
+    </script>
+
+</body>
+
+</html>

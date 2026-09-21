@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Open Close Modal</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #fff5f8;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* OPEN BUTTON */
+
+        .open-btn {
+            background: #e91e63;
+            color: white;
+
+            border: none;
+            padding: 14px 32px;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.25);
+
+            transition: 0.3s;
+        }
+
+        .open-btn:hover {
+            background: #c2185b;
+            transform: translateY(-2px);
+        }
+
+
+        /* MODAL BACKGROUND */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.55);
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+
+        /* MODAL BOX */
+
+        .modal-content {
+            width: 100%;
+            max-width: 430px;
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            position: relative;
+
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+            animation: popup 0.3s ease;
+        }
+
+
+        /* ANIMATION */
+
+        @keyframes popup {
+
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* CLOSE BUTTON */
+
+        .close-btn {
+            position: absolute;
+
+            top: 15px;
+            right: 15px;
+
+            width: 35px;
+            height: 35px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #fce4ec;
+
+            color: #e91e63;
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #e91e63;
+            color: white;
+        }
+
+
+        /* ICON */
+
+        .icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #fce4ec;
+
+            color: #e91e63;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 30px;
+        }
+
+
+        /* HEADING */
+
+        .modal-content h2 {
+            color: #222;
+
+            font-size: 26px;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* TEXT */
+
+        .modal-content p {
+            color: #666;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* BUTTON */
+
+        .continue-btn {
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #e91e63;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .continue-btn:hover {
+            background: #c2185b;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- OPEN MODAL BUTTON -->
+
+    <button class="open-btn" onclick="openModal()">
+        Open Modal
+    </button>
+
+
+
+    <!-- MODAL -->
+
+    <div class="modal" id="myModal">
+
+        <div class="modal-content">
+
+
+            <!-- CLOSE -->
+
+            <button class="close-btn" onclick="closeModal()">
+                &times;
+            </button>
+
+
+            <!-- ICON -->
+
+            <div class="icon">
+                ✓
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <h2>
+                Welcome!
+            </h2>
+
+            <p>
+                This is a professional modal popup.
+                You can open and close this popup using JavaScript.
+            </p>
+
+
+            <!-- CONTINUE -->
+
+            <button class="continue-btn" onclick="closeModal()">
+                Continue
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const modal = document.getElementById("myModal");
+
+
+        // Open Modal
+
+        function openModal() {
+            modal.style.display = "flex";
+        }
+
+
+        // Close Modal
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+
+        // Close when clicking outside
+
+        modal.addEventListener("click", function(event) {
+
+            if (event.target === modal) {
+                closeModal();
+            }
+
+        });
+
+
+        // Close with ESC key
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+                closeModal();
+            }
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

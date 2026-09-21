@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tab Switching Component</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f3ff;
+            padding: 30px;
+        }
+
+        /* Main Container */
+
+        .container {
+            width: 750px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* Heading */
+
+        .container h1 {
+            text-align: center;
+            color: #6d28d9;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+
+        /* Tabs */
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            border-bottom: 2px solid #ddd6fe;
+            margin-bottom: 25px;
+        }
+
+
+        .tab-button {
+            padding: 13px 25px;
+            border: none;
+            background: transparent;
+            color: #555;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: 0.3s;
+        }
+
+
+        /* Hover */
+
+        .tab-button:hover {
+            background: #f5f3ff;
+            color: #6d28d9;
+        }
+
+
+        /* Active Tab */
+
+        .tab-button.active {
+            background: #6d28d9;
+            color: white;
+        }
+
+
+        /* Tab Content */
+
+        .tab-content {
+            display: none;
+            padding: 28px;
+            background: #faf5ff;
+            border: 1px solid #ede9fe;
+            border-radius: 12px;
+
+            animation: fadeIn 0.3s ease;
+        }
+
+
+        /* Active Content */
+
+        .tab-content.active {
+            display: block;
+        }
+
+
+        .tab-content h2 {
+            color: #6d28d9;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+
+        .tab-content p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+
+        /* Animation */
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* Responsive */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 100%;
+                padding: 25px 20px;
+            }
+
+            .container h1 {
+                font-size: 26px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+                border-bottom: none;
+            }
+
+            .tab-button {
+                padding: 11px 16px;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <h1>Our Website</h1>
+
+        <p class="subtitle">
+            Explore different sections using tabs
+        </p>
+
+
+        <!-- =========================
+             TAB BUTTONS
+        ========================== -->
+
+        <div class="tabs">
+
+            <button
+                class="tab-button active"
+                data-tab="home">
+                Home
+            </button>
+
+
+            <button
+                class="tab-button"
+                data-tab="about">
+                About
+            </button>
+
+
+            <button
+                class="tab-button"
+                data-tab="services">
+                Services
+            </button>
+
+
+            <button
+                class="tab-button"
+                data-tab="contact">
+                Contact
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             HOME CONTENT
+        ========================== -->
+
+        <div
+            class="tab-content active"
+            id="home">
+
+            <h2>Home</h2>
+
+            <p>
+                Welcome to our website. This is the home
+                section of our tab switching component.
+                Click on the tabs above to explore
+                different sections.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ABOUT CONTENT
+        ========================== -->
+
+        <div
+            class="tab-content"
+            id="about">
+
+            <h2>About Us</h2>
+
+            <p>
+                We provide modern and user-friendly
+                solutions for websites and applications.
+                Our goal is to create simple and effective
+                digital experiences.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             SERVICES CONTENT
+        ========================== -->
+
+        <div
+            class="tab-content"
+            id="services">
+
+            <h2>Our Services</h2>
+
+            <p>
+                We provide Web Development, App Development,
+                UI/UX Design, Database Management and
+                Digital Marketing services.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             CONTACT CONTENT
+        ========================== -->
+
+        <div
+            class="tab-content"
+            id="contact">
+
+            <h2>Contact Us</h2>
+
+            <p>
+                Email: example@gmail.com
+                <br><br>
+
+                Phone: +91 98765 43210
+                <br><br>
+
+                Address: India
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        /* =========================
+           SELECT TAB BUTTONS
+        ========================== */
+
+        const tabButtons =
+            document.querySelectorAll(".tab-button");
+
+
+        /* =========================
+           SELECT TAB CONTENT
+        ========================== */
+
+        const tabContents =
+            document.querySelectorAll(".tab-content");
+
+
+
+        /* =========================
+           TAB CLICK EVENT
+        ========================== */
+
+        tabButtons.forEach(function (button) {
+
+            button.addEventListener("click", function () {
+
+
+                /* Remove active from all buttons */
+
+                tabButtons.forEach(function (btn) {
+
+                    btn.classList.remove("active");
+
+                });
+
+
+
+                /* Hide all tab contents */
+
+                tabContents.forEach(function (content) {
+
+                    content.classList.remove("active");
+
+                });
+
+
+
+                /* Add active to clicked button */
+
+                button.classList.add("active");
+
+
+
+                /* Get selected tab name */
+
+                const tabName =
+                    button.getAttribute("data-tab");
+
+
+
+                /* Show selected content */
+
+                document
+                    .getElementById(tabName)
+                    .classList.add("active");
+
+            });
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

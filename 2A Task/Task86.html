@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Search</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff7ed;
+            color: #431407;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #9a3412;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #78716c;
+            font-size: 16px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-wrapper span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+
+        #searchInput {
+            width: 100%;
+            height: 55px;
+            border: 2px solid #fed7aa;
+            border-radius: 10px;
+            padding: 0 18px 0 50px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #searchInput:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 0 4px #ffedd5;
+        }
+
+        .status {
+            margin-top: 15px;
+            color: #78716c;
+            font-size: 14px;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #fed7aa;
+            border-top-color: #ea580c;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            border: 1px solid #ffedd5;
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            background: #ffedd5;
+            color: #c2410c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .user-card h3 {
+            color: #7c2d12;
+            margin-bottom: 8px;
+        }
+
+        .username {
+            color: #ea580c;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            color: #57534e;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .no-result {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            color: #78716c;
+        }
+
+        .error {
+            display: none;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 800px) {
+            .user-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            body {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .user-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>API User Search</h1>
+            <p>Search users dynamically using API data</p>
+        </div>
+
+        <div class="search-box">
+
+            <div class="search-wrapper">
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search user by name..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="status" id="status">
+                Loading users...
+            </div>
+
+        </div>
+
+        <div class="error" id="errorMessage"></div>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p>Loading user data...</p>
+        </div>
+
+        <div class="user-grid" id="userGrid"></div>
+
+        <div class="no-result" id="noResult">
+            <h3>No Users Found</h3>
+            <p>Try searching with another name.</p>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const apiURL =
+            "https://jsonplaceholder.typicode.com/users";
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const userGrid =
+            document.getElementById("userGrid");
+
+        const status =
+            document.getElementById("status");
+
+        const loader =
+            document.getElementById("loader");
+
+        const noResult =
+            document.getElementById("noResult");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+
+        let allUsers = [];
+
+
+        // ================================
+        // FETCH USERS FROM API
+        // ================================
+
+        async function fetchUsers() {
+
+            loader.style.display = "block";
+
+            try {
+
+                const response = await fetch(apiURL);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+
+                const data = await response.json();
+
+                allUsers = data;
+
+                displayUsers(allUsers);
+
+                status.textContent =
+                    `${allUsers.length} users loaded`;
+
+            }
+
+            catch (error) {
+
+                errorMessage.textContent =
+                    "Unable to load users. Please try again.";
+
+                errorMessage.style.display = "block";
+
+                console.error(error);
+
+            }
+
+            finally {
+
+                loader.style.display = "none";
+
+            }
+        }
+
+
+        // ================================
+        // DISPLAY USERS
+        // ================================
+
+        function displayUsers(users) {
+
+            userGrid.innerHTML = "";
+
+            noResult.style.display = "none";
+
+
+            if (users.length === 0) {
+
+                noResult.style.display = "block";
+
+                status.textContent = "0 users found";
+
+                return;
+            }
+
+
+            users.forEach(user => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "user-card";
+
+
+                const firstLetter =
+                    user.name.charAt(0).toUpperCase();
+
+
+                card.innerHTML = `
+                    <div class="avatar">
+                        ${firstLetter}
+                    </div>
+
+                    <h3>${user.name}</h3>
+
+                    <div class="username">
+                        @${user.username}
+                    </div>
+
+                    <div class="user-info">
+                        📧 ${user.email}<br>
+                        📞 ${user.phone}<br>
+                        📍 ${user.address.city}
+                    </div>
+                `;
+
+
+                userGrid.appendChild(card);
+
+            });
+
+
+            status.textContent =
+                `${users.length} user(s) found`;
+        }
+
+
+        // ================================
+        // SEARCH USERS
+        // ================================
+
+        searchInput.addEventListener("input", function () {
+
+            const searchValue =
+                searchInput.value.toLowerCase().trim();
+
+
+            const filteredUsers =
+                allUsers.filter(user =>
+                    user.name.toLowerCase().includes(searchValue)
+                );
+
+
+            displayUsers(filteredUsers);
+
+        });
+
+
+        // ================================
+        // LOAD API DATA
+        // ================================
+
+        fetchUsers();
+
+    </script>
+
+</body>
+
+</html>

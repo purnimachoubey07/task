@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dynamic DOM Table</title>
+
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            min-height: 100vh;
+
+            background: #f0fdf4;
+
+            padding: 50px 20px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        .heading {
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+
+            color: #1f2937;
+
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr auto;
+
+            gap: 12px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* INPUT */
+
+        .form input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: #374151;
+
+            transition: 0.3s;
+        }
+
+
+        .form input:focus {
+            border-color: #166534;
+
+            box-shadow:
+                0 0 0 3px rgba(22, 101, 52, 0.10);
+        }
+
+
+        /* =========================
+           ADD BUTTON
+        ========================= */
+
+        .add-btn {
+            border: none;
+
+            padding: 13px 22px;
+
+            border-radius: 8px;
+
+            background: #166534;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .add-btn:hover {
+            background: #14532d;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           TABLE WRAPPER
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+        }
+
+
+        /* TABLE HEADER */
+
+        thead {
+            background: #166534;
+
+            color: white;
+        }
+
+
+        th {
+            padding: 15px;
+
+            text-align: left;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* TABLE BODY */
+
+        td {
+            padding: 15px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            color: #4b5563;
+
+            font-size: 14px;
+        }
+
+
+        /* ROW HOVER */
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+
+        tbody tr:hover {
+            background: #f7fee7;
+        }
+
+
+        /* =========================
+           DELETE BUTTON
+        ========================= */
+
+        .delete-btn {
+            border: none;
+
+            padding: 8px 15px;
+
+            border-radius: 6px;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .delete-btn:hover {
+            background: #dc2626;
+
+            color: white;
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+        ========================= */
+
+        .empty-message {
+            text-align: center;
+
+            color: #9ca3af;
+
+            padding: 25px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 25px 15px;
+            }
+
+
+            .container {
+                padding: 25px 18px;
+            }
+
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+
+            .form {
+                grid-template-columns: 1fr;
+            }
+
+
+            .add-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         MAIN CONTAINER
+    ========================= -->
+
+    <div class="container">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                Student Records
+            </h1>
+
+            <p>
+                Add and remove table rows dynamically using JavaScript
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             INPUT FORM
+        ========================= -->
+
+        <div class="form">
+
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter student name">
+
+
+            <input
+                type="text"
+                id="course"
+                placeholder="Enter course">
+
+
+            <button
+                class="add-btn"
+                onclick="addRow()">
+
+                + Add Student
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             TABLE
+        ========================= -->
+
+        <div class="table-wrapper">
+
+
+            <table>
+
+
+                <!-- TABLE HEAD -->
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Course
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <!-- TABLE BODY -->
+
+                <tbody id="tableBody">
+
+
+                    <!-- ROW 1 -->
+
+                    <tr>
+
+                        <td>
+                            1
+                        </td>
+
+                        <td>
+                            Rahul Sharma
+                        </td>
+
+                        <td>
+                            BCA
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="delete-btn"
+                                onclick="removeRow(this)">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+
+                    <!-- ROW 2 -->
+
+                    <tr>
+
+                        <td>
+                            2
+                        </td>
+
+                        <td>
+                            Priya Singh
+                        </td>
+
+                        <td>
+                            BCA
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="delete-btn"
+                                onclick="removeRow(this)">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        // =================================
+        // ADD NEW TABLE ROW
+        // =================================
+
+        function addRow() {
+
+
+            // Get input values
+
+            const name =
+                document.getElementById("name").value.trim();
+
+
+            const course =
+                document.getElementById("course").value.trim();
+
+
+
+            // Check empty fields
+
+            if (name === "" || course === "") {
+
+                alert("Please enter both name and course.");
+
+                return;
+
+            }
+
+
+
+            // Get table body
+
+            const tableBody =
+                document.getElementById("tableBody");
+
+
+
+            // Create new table row
+
+            const row =
+                document.createElement("tr");
+
+
+
+            // Add content to row
+
+            row.innerHTML = `
+
+                <td></td>
+
+                <td>${name}</td>
+
+                <td>${course}</td>
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        onclick="removeRow(this)">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            `;
+
+
+
+            // Add row to table
+
+            tableBody.appendChild(row);
+
+
+
+            // Update row numbers
+
+            updateNumbers();
+
+
+
+            // Clear input fields
+
+            document.getElementById("name").value = "";
+
+            document.getElementById("course").value = "";
+
+        }
+
+
+
+        // =================================
+        // REMOVE TABLE ROW
+        // =================================
+
+        function removeRow(button) {
+
+
+            // Find the complete row
+
+            const row =
+                button.parentElement.parentElement;
+
+
+
+            // Remove row
+
+            row.remove();
+
+
+
+            // Update numbering
+
+            updateNumbers();
+
+        }
+
+
+
+        // =================================
+        // UPDATE ROW NUMBERS
+        // =================================
+
+        function updateNumbers() {
+
+
+            // Select all rows
+
+            const rows =
+                document.querySelectorAll("#tableBody tr");
+
+
+
+            // Give each row a number
+
+            rows.forEach(function(row, index) {
+
+                row.cells[0].textContent =
+                    index + 1;
+
+            });
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

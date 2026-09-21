@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details Modal</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0fdfa;
+            color: #1f2937;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h1 {
+            color: #115e59;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+
+
+        /* =========================
+           PRODUCT GRID
+        ========================= */
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+
+        /* =========================
+           PRODUCT CARD
+        ========================= */
+
+        .product-card {
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 190px;
+
+            background: #ccfbf1;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 75px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .category {
+            display: inline-block;
+
+            background: #ccfbf1;
+            color: #115e59;
+
+            padding: 5px 9px;
+
+            border-radius: 5px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .product-info h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #0f766e;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        .details-btn {
+            width: 100%;
+
+            border: none;
+
+            background: #0f766e;
+            color: white;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .details-btn:hover {
+            background: #115e59;
+        }
+
+
+        /* =========================
+           MODAL BACKDROP
+        ========================= */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(15, 23, 42, 0.65);
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+
+
+        /* =========================
+           MODAL BOX
+        ========================= */
+
+        .modal-content {
+            width: 550px;
+            max-width: 100%;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            position: relative;
+
+            animation: modalOpen 0.3s ease;
+        }
+
+        @keyframes modalOpen {
+
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* =========================
+           CLOSE BUTTON
+        ========================= */
+
+        .close-btn {
+            position: absolute;
+
+            top: 15px;
+            right: 18px;
+
+            width: 35px;
+            height: 35px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+            color: #475569;
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+
+        /* =========================
+           MODAL PRODUCT
+        ========================= */
+
+        .modal-product-image {
+            height: 180px;
+
+            background: #ccfbf1;
+
+            border-radius: 12px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 85px;
+
+            margin-bottom: 22px;
+        }
+
+        .modal-category {
+            display: inline-block;
+
+            background: #ccfbf1;
+            color: #115e59;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+        .modal-content h2 {
+            font-size: 27px;
+
+            color: #134e4a;
+
+            margin-bottom: 10px;
+        }
+
+        .modal-rating {
+            color: #f59e0b;
+
+            font-size: 17px;
+
+            margin-bottom: 12px;
+        }
+
+        .modal-price {
+            font-size: 24px;
+
+            font-weight: bold;
+
+            color: #0f766e;
+
+            margin-bottom: 15px;
+        }
+
+        .modal-description {
+            color: #64748b;
+
+            line-height: 1.7;
+
+            margin-bottom: 22px;
+        }
+
+        .buy-btn {
+            width: 100%;
+
+            border: none;
+
+            background: #f59e0b;
+            color: white;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .buy-btn:hover {
+            background: #d97706;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 25px 15px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <!-- =========================
+             HEADING
+        ========================= -->
+
+        <div class="heading">
+
+            <h1>Our Products</h1>
+
+            <p>
+                Click View Details to see complete product information.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             PRODUCT GRID
+        ========================= -->
+
+        <div class="product-grid">
+
+
+            <!-- Product 1 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    🎧
+                </div>
+
+                <div class="product-info">
+
+                    <span class="category">
+                        Electronics
+                    </span>
+
+                    <h3>
+                        Wireless Headphones
+                    </h3>
+
+                    <div class="price">
+                        ₹1,999
+                    </div>
+
+                    <button
+                        class="details-btn"
+                        onclick="showProduct(
+                            'Wireless Headphones',
+                            'Electronics',
+                            '₹1,999',
+                            '★★★★★',
+                            'High-quality wireless headphones with clear sound, comfortable ear cushions and long battery life.',
+                            '🎧'
+                        )">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    ⌚
+                </div>
+
+                <div class="product-info">
+
+                    <span class="category">
+                        Electronics
+                    </span>
+
+                    <h3>
+                        Smart Watch
+                    </h3>
+
+                    <div class="price">
+                        ₹2,499
+                    </div>
+
+                    <button
+                        class="details-btn"
+                        onclick="showProduct(
+                            'Smart Watch',
+                            'Electronics',
+                            '₹2,499',
+                            '★★★★☆',
+                            'Modern smart watch with fitness tracking, notifications, heart-rate monitoring and stylish design.',
+                            '⌚'
+                        )">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    👟
+                </div>
+
+                <div class="product-info">
+
+                    <span class="category">
+                        Fashion
+                    </span>
+
+                    <h3>
+                        Running Shoes
+                    </h3>
+
+                    <div class="price">
+                        ₹2,799
+                    </div>
+
+                    <button
+                        class="details-btn"
+                        onclick="showProduct(
+                            'Running Shoes',
+                            'Fashion',
+                            '₹2,799',
+                            '★★★★★',
+                            'Lightweight and comfortable running shoes designed for daily workouts, walking and outdoor activities.',
+                            '👟'
+                        )">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="product-card">
+
+                <div class="product-image">
+                    🎒
+                </div>
+
+                <div class="product-info">
+
+                    <span class="category">
+                        Accessories
+                    </span>
+
+                    <h3>
+                        Classic Backpack
+                    </h3>
+
+                    <div class="price">
+                        ₹1,499
+                    </div>
+
+                    <button
+                        class="details-btn"
+                        onclick="showProduct(
+                            'Classic Backpack',
+                            'Accessories',
+                            '₹1,499',
+                            '★★★★☆',
+                            'Durable everyday backpack with spacious compartments, comfortable straps and a modern design.',
+                            '🎒'
+                        )">
+
+                        View Details
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="productModal"
+        onclick="closeOutside(event)">
+
+
+        <div
+            class="modal-content"
+            onclick="event.stopPropagation()">
+
+
+            <button
+                class="close-btn"
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+
+            <div
+                class="modal-product-image"
+                id="modalImage">
+
+                🎧
+
+            </div>
+
+
+            <span
+                class="modal-category"
+                id="modalCategory">
+
+                Electronics
+
+            </span>
+
+
+            <h2 id="modalName">
+                Wireless Headphones
+            </h2>
+
+
+            <div
+                class="modal-rating"
+                id="modalRating">
+
+                ★★★★★
+
+            </div>
+
+
+            <div
+                class="modal-price"
+                id="modalPrice">
+
+                ₹1,999
+
+            </div>
+
+
+            <p
+                class="modal-description"
+                id="modalDescription">
+
+                Product description.
+
+            </p>
+
+
+            <button
+                class="buy-btn"
+                onclick="buyProduct()">
+
+                Add to Cart
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           SHOW PRODUCT MODAL
+        ========================= */
+
+        function showProduct(
+            name,
+            category,
+            price,
+            rating,
+            description,
+            image
+        ) {
+
+            // Set product information
+
+            document.getElementById(
+                "modalName"
+            ).textContent = name;
+
+
+            document.getElementById(
+                "modalCategory"
+            ).textContent = category;
+
+
+            document.getElementById(
+                "modalPrice"
+            ).textContent = price;
+
+
+            document.getElementById(
+                "modalRating"
+            ).textContent = rating;
+
+
+            document.getElementById(
+                "modalDescription"
+            ).textContent = description;
+
+
+            document.getElementById(
+                "modalImage"
+            ).textContent = image;
+
+
+            // Show modal
+
+            document.getElementById(
+                "productModal"
+            ).classList.add("show");
+
+        }
+
+
+        /* =========================
+           CLOSE MODAL
+        ========================= */
+
+        function closeModal() {
+
+            document.getElementById(
+                "productModal"
+            ).classList.remove("show");
+
+        }
+
+
+        /* =========================
+           CLOSE ON OUTSIDE CLICK
+        ========================= */
+
+        function closeOutside(event) {
+
+            if (
+                event.target.id === "productModal"
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+
+
+        /* =========================
+           ESC KEY
+        ========================= */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           ADD TO CART
+        ========================= */
+
+        function buyProduct() {
+
+            alert(
+                "Product added to cart successfully!"
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

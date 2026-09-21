@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Data Table</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0fdfa;
+            color: #134e4a;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #115e59;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #ccfbf1;
+            font-size: 15px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            background: white;
+            padding: 22px 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .top-bar h2 {
+            color: #115e59;
+        }
+
+        .load-btn {
+            border: none;
+            background: #0f766e;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .load-btn:hover {
+            background: #115e59;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: none;
+            margin-bottom: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .loading {
+            background: #ccfbf1;
+            color: #115e59;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================= TABLE CARD ================= */
+
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        thead {
+            background: #115e59;
+            color: white;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #ccfbf1;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        tbody tr {
+            transition: 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f0fdfa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .id {
+            font-weight: bold;
+            color: #0f766e;
+        }
+
+        .name {
+            font-weight: bold;
+            color: #134e4a;
+        }
+
+        .email {
+            color: #0f766e;
+        }
+
+        /* ================= BADGE ================= */
+
+        .city-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #ccfbf1;
+            color: #115e59;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .container {
+                width: 96%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <h1>API Data Table</h1>
+
+        <p>
+            Fetch and display REST API data in table format
+        </p>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="container">
+
+
+        <!-- TOP BAR -->
+
+        <div class="top-bar">
+
+            <h2>User Information</h2>
+
+            <button
+                class="load-btn"
+                onclick="fetchUsers()">
+
+                ↻ Load Data
+
+            </button>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div
+            id="loading"
+            class="status loading">
+
+            Loading user data...
+
+        </div>
+
+
+        <div
+            id="error"
+            class="status error">
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Username</th>
+
+                            <th>Email</th>
+
+                            <th>Phone</th>
+
+                            <th>City</th>
+
+                            <th>Company</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="userTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty">
+
+                                Click "Load Data" to fetch users.
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const API_URL =
+            "https://jsonplaceholder.typicode.com/users";
+
+
+        /* =========================================
+           FETCH USERS
+        ========================================= */
+
+        async function fetchUsers() {
+
+            const loading =
+                document.getElementById("loading");
+
+            const error =
+                document.getElementById("error");
+
+            const tableBody =
+                document.getElementById("userTableBody");
+
+
+            /* Show loading */
+
+            loading.style.display = "block";
+
+            error.style.display = "none";
+
+            tableBody.innerHTML = "";
+
+
+            try {
+
+                /* =========================
+                   API REQUEST
+                ========================= */
+
+                const response =
+                    await fetch(API_URL);
+
+
+                /* Check response */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to fetch user data."
+                    );
+
+                }
+
+
+                /* Convert response to JSON */
+
+                const users =
+                    await response.json();
+
+
+                /* Display users */
+
+                displayUsers(users);
+
+
+            }
+
+            catch (err) {
+
+                console.error(err);
+
+                error.textContent =
+                    "Unable to load data. Please try again.";
+
+                error.style.display = "block";
+
+
+                tableBody.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty">
+
+                            No data available.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+            finally {
+
+                /* Hide loading */
+
+                loading.style.display = "none";
+
+            }
+
+        }
+
+
+        /* =========================================
+           DISPLAY USERS IN TABLE
+        ========================================= */
+
+        function displayUsers(users) {
+
+            const tableBody =
+                document.getElementById("userTableBody");
+
+
+            tableBody.innerHTML = "";
+
+
+            users.forEach(user => {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td class="id">
+                        ${user.id}
+                    </td>
+
+                    <td class="name">
+                        ${user.name}
+                    </td>
+
+                    <td>
+                        ${user.username}
+                    </td>
+
+                    <td class="email">
+                        ${user.email}
+                    </td>
+
+                    <td>
+                        ${user.phone}
+                    </td>
+
+                    <td>
+
+                        <span class="city-badge">
+
+                            ${user.address.city}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${user.company.name}
+                    </td>
+
+                `;
+
+
+                tableBody.appendChild(row);
+
+            });
+
+        }
+
+
+        /* =========================================
+           LOAD DATA AUTOMATICALLY
+        ========================================= */
+
+        fetchUsers();
+
+    </script>
+
+</body>
+
+</html>

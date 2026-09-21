@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Transitions</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Card */
+        .card {
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+            /* Smooth Transition */
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Button */
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+
+            /* Smooth Transition */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>CSS Transition Example</h1>
+
+    <div class="card">
+        <h2>Welcome</h2>
+        <p>
+            Hover over this card to see a smooth transition effect.
+        </p>
+
+        <button>Click Here</button>
+    </div>
+
+</body>
+
+</html>

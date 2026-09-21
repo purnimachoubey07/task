@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Product Grid</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            height: 220px;
+            object-fit: cover;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <h2 class="text-center mb-4">Our Products</h2>
+
+        <div class="row g-4">
+
+            <!-- Product 1 -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://images.pexels.com/photos/40185/mac-freelancer-macintosh-macbook-40185.jpeg?cs=srgb&dl=pexels-pixabay-40185.jpg&fm=jpg"
+                        class="card-img-top" alt="Laptop">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Laptop</h5>
+                        <p class="card-text">High-performance laptop for students.</p>
+                        <h5 class="text-primary">₹45,000</h5>
+                        <a href="#" class="btn btn-primary">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://im.bestcheck.de/img/1200000/1249000/1249879_4da32c99d699df8777159b392776a4303c8ad267eb7404597c11136cf99f51ef.jpg?im=BackgroundColor%2Ccolor%3Dffffff&hash=44d09a50dda9e1502a734b301cba50a43266978ec6e8776a52433be4c62b1c54"
+                        class="card-img-top" alt="Smartphone">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Smartphone</h5>
+                        <p class="card-text">Latest Android smartphone.</p>
+                        <h5 class="text-primary">₹20,000</h5>
+                        <a href="#" class="btn btn-primary">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://cdn.pixabay.com/photo/2023/04/01/21/50/headphones-7893161_960_720.jpg"
+                        class="card-img-top" alt="Headphones">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Headphones</h5>
+                        <p class="card-text">Wireless noise-cancelling headphones.</p>
+                        <h5 class="text-primary">₹3,500</h5>
+                        <a href="#" class="btn btn-primary">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <img src="https://s.yimg.com/uu/api/res/1.2/LFj5iMp6pk7PSPJ.EkkabQ--~B/aD0xMzMzO3c9MjAwMDthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2022-09/858128d0-3491-11ed-aeec-c03b39ac030c.cf.jpg"
+                        class="card-img-top" alt="Smartwatch">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Smartwatch</h5>
+                        <p class="card-text">Fitness tracking smartwatch.</p>
+                        <h5 class="text-primary">₹5,999</h5>
+                        <a href="#" class="btn btn-primary">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

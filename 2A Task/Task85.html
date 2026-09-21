@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Pagination</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fefce8;
+            color: #422006;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #854d0e;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #78716c;
+            font-size: 16px;
+        }
+
+        /* Status */
+
+        #status {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #854d0e;
+            font-weight: bold;
+        }
+
+        /* Loader */
+
+        #loader {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid #fde68a;
+            border-top: 5px solid #ca8a04;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        /* User Grid */
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .user-card {
+            background: white;
+            border: 1px solid #fde68a;
+            border-radius: 15px;
+            padding: 25px;
+
+            box-shadow:
+                0 8px 20px rgba(120, 53, 15, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #fef3c7;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .user-card h2 {
+            color: #854d0e;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            color: #78716c;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .user-info strong {
+            color: #292524;
+        }
+
+        /* Pagination */
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            min-width: 42px;
+            height: 42px;
+
+            border: 1px solid #facc15;
+            background: white;
+            color: #713f12;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background: #fef3c7;
+        }
+
+        .page-btn.active {
+            background: #ca8a04;
+            color: white;
+            border-color: #ca8a04;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        #pageInfo {
+            text-align: center;
+            color: #78716c;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+
+            padding: 15px;
+            border-radius: 10px;
+
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+
+            .users-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .page-btn {
+                min-width: 38px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- Header -->
+
+        <div class="header">
+
+            <h1>📄 API Pagination</h1>
+
+            <p>
+                Browse API data page by page
+            </p>
+
+        </div>
+
+
+        <!-- Status -->
+
+        <div id="status">
+            Loading...
+        </div>
+
+
+        <!-- Loader -->
+
+        <div id="loader">
+
+            <div class="spinner"></div>
+
+            <p>
+                Loading page data...
+            </p>
+
+        </div>
+
+
+        <!-- Error -->
+
+        <div id="errorBox"></div>
+
+
+        <!-- Users -->
+
+        <div
+            id="usersContainer"
+            class="users-grid">
+        </div>
+
+
+        <!-- Pagination -->
+
+        <div
+            id="pagination"
+            class="pagination">
+        </div>
+
+
+        <div id="pageInfo"></div>
+
+
+    </div>
+
+
+    <script>
+
+
+        /* =========================
+           API SETTINGS
+        ========================= */
+
+        const apiURL =
+            "https://jsonplaceholder.typicode.com/users";
+
+        const usersPerPage = 3;
+
+        let currentPage = 1;
+
+        let allUsers = [];
+
+
+        /* =========================
+           FETCH API DATA
+        ========================= */
+
+        async function fetchUsers() {
+
+
+            const loader =
+                document.getElementById("loader");
+
+            const status =
+                document.getElementById("status");
+
+            const errorBox =
+                document.getElementById("errorBox");
+
+
+            loader.style.display = "block";
+
+            errorBox.innerHTML = "";
+
+            status.textContent =
+                "Fetching user data...";
+
+
+            try {
+
+
+                const response =
+                    await fetch(apiURL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to fetch data."
+                    );
+
+                }
+
+
+                allUsers =
+                    await response.json();
+
+
+                status.textContent =
+                    `Total Users: ${allUsers.length}`;
+
+
+                // Display first page
+
+                displayPage(1);
+
+
+            }
+
+
+            catch (error) {
+
+
+                errorBox.className = "error";
+
+                errorBox.textContent =
+                    "❌ Failed to load data. Please try again.";
+
+
+                status.textContent = "";
+
+                console.error(error);
+
+            }
+
+
+            finally {
+
+                loader.style.display = "none";
+
+            }
+
+        }
+
+
+        /* =========================
+           DISPLAY PAGE
+        ========================= */
+
+        function displayPage(page) {
+
+
+            currentPage = page;
+
+
+            const usersContainer =
+                document.getElementById(
+                    "usersContainer"
+                );
+
+
+            usersContainer.innerHTML = "";
+
+
+            /*
+                Starting index
+
+                Page 1 → 0
+                Page 2 → 3
+                Page 3 → 6
+            */
+
+            const startIndex =
+                (page - 1) * usersPerPage;
+
+
+            const endIndex =
+                startIndex + usersPerPage;
+
+
+            const pageUsers =
+                allUsers.slice(
+                    startIndex,
+                    endIndex
+                );
+
+
+            /* Display users */
+
+            pageUsers.forEach(function(user) {
+
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "user-card";
+
+
+                card.innerHTML = `
+
+                    <div class="user-icon">
+                        👤
+                    </div>
+
+                    <h2>
+                        ${user.name}
+                    </h2>
+
+                    <div class="user-info">
+                        <strong>Username:</strong>
+                        ${user.username}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Email:</strong>
+                        ${user.email}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Phone:</strong>
+                        ${user.phone}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>City:</strong>
+                        ${user.address.city}
+                    </div>
+
+                    <div class="user-info">
+                        <strong>Company:</strong>
+                        ${user.company.name}
+                    </div>
+
+                `;
+
+
+                usersContainer.appendChild(card);
+
+
+            });
+
+
+            createPagination();
+
+
+        }
+
+
+        /* =========================
+           CREATE PAGINATION
+        ========================= */
+
+        function createPagination() {
+
+
+            const pagination =
+                document.getElementById(
+                    "pagination"
+                );
+
+
+            const pageInfo =
+                document.getElementById(
+                    "pageInfo"
+                );
+
+
+            pagination.innerHTML = "";
+
+
+            /*
+                Calculate total pages
+
+                10 users / 3
+                = 4 pages
+            */
+
+            const totalPages =
+                Math.ceil(
+                    allUsers.length /
+                    usersPerPage
+                );
+
+
+            /* Previous Button */
+
+            const previousButton =
+                document.createElement("button");
+
+
+            previousButton.className =
+                "page-btn";
+
+
+            previousButton.textContent =
+                "‹";
+
+
+            previousButton.disabled =
+                currentPage === 1;
+
+
+            previousButton.onclick =
+                function() {
+
+                    if (currentPage > 1) {
+
+                        displayPage(
+                            currentPage - 1
+                        );
+
+                    }
+
+                };
+
+
+            pagination.appendChild(
+                previousButton
+            );
+
+
+            /* Number Buttons */
+
+            for (
+                let page = 1;
+                page <= totalPages;
+                page++
+            ) {
+
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.className =
+                    "page-btn";
+
+
+                button.textContent =
+                    page;
+
+
+                if (
+                    page === currentPage
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                }
+
+
+                button.onclick =
+                    function() {
+
+                        displayPage(page);
+
+                    };
+
+
+                pagination.appendChild(
+                    button
+                );
+
+            }
+
+
+            /* Next Button */
+
+            const nextButton =
+                document.createElement("button");
+
+
+            nextButton.className =
+                "page-btn";
+
+
+            nextButton.textContent =
+                "›";
+
+
+            nextButton.disabled =
+                currentPage === totalPages;
+
+
+            nextButton.onclick =
+                function() {
+
+                    if (
+                        currentPage <
+                        totalPages
+                    ) {
+
+                        displayPage(
+                            currentPage + 1
+                        );
+
+                    }
+
+                };
+
+
+            pagination.appendChild(
+                nextButton
+            );
+
+
+            /* Page Information */
+
+            pageInfo.textContent =
+                `Page ${currentPage} of ${totalPages}`;
+
+        }
+
+
+        /* =========================
+           START APPLICATION
+        ========================= */
+
+        fetchUsers();
+
+
+    </script>
+
+</body>
+
+</html>

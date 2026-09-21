@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaTech | API Integrated Capstone</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #161616;
+            color: #292524;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: #837f7e;
+            padding: 16px 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .navbar-brand span {
+            color: #8f579c;
+        }
+
+        .nav-link {
+            color: #d6d3d1 !important;
+            margin: 0 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #55116f !important;
+        }
+
+        .navbar-toggler {
+            border-color: #57534e;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        .nav-btn {
+            background: #5a207e;
+            color: white !important;
+            padding: 10px 18px !important;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 620px;
+            display: flex;
+            align-items: center;
+            padding: 90px 0;
+            background:
+                radial-gradient(circle at 80% 20%,
+                    #fed7aa,
+                    transparent 28%),
+                linear-gradient(135deg,
+                    #fff7ed,
+                    #fafaf9);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #ffedd5;
+            color: #971fb9;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 68px);
+            line-height: 1.08;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #701983;
+        }
+
+        .hero p {
+            color: #78716c;
+            max-width: 580px;
+            line-height: 1.8;
+            margin: 25px 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: #7e1eb2;
+            color: white;
+            border: none;
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-main:hover {
+            background: #6a1985;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            border: 1px solid #d6d3d1;
+            color: #44403c;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           HERO CARD
+        ========================= */
+
+        .dashboard {
+            background: #292524;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(41, 37, 36, 0.2);
+        }
+
+        .dashboard-top {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            background: #78716c;
+            border-radius: 50%;
+        }
+
+        .dashboard-content {
+            background: #44403c;
+            padding: 25px;
+            border-radius: 14px;
+        }
+
+        .dashboard-title {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .api-status {
+            background: #57534e;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .api-status small {
+            color: #a8a29e;
+        }
+
+        .api-status h3 {
+            color: #631ea3;
+            margin: 5px 0 0;
+        }
+
+        .api-line {
+            height: 10px;
+            background: #78716c;
+            border-radius: 20px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .api-line span {
+            display: block;
+            width: 85%;
+            height: 100%;
+            background: #7f24ad;
+            border-radius: 20px;
+        }
+
+        /* =========================
+           COMMON
+        ========================= */
+
+        section {
+            padding: 90px 0;
+        }
+
+        .section-label {
+            color: #621b8f;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 800;
+            margin: 10px 0 15px;
+        }
+
+        .section-text {
+            color: #78716c;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            background: white;
+        }
+
+        .service-card {
+            height: 100%;
+            background: white;
+            border: 1px solid #e7e5e4;
+            padding: 30px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: #fdba74;
+            box-shadow: 0 15px 35px rgba(41, 37, 36, 0.08);
+        }
+
+        .service-icon {
+            width: 55px;
+            height: 55px;
+            background: #fff7ed;
+            color: #821ca1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h4 {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: #78716c;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           API TEAM SECTION
+        ========================= */
+
+        .team-section {
+            background: #f5f5f4;
+        }
+
+        .api-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff7ed;
+            color: #982ca9;
+            border: 1px solid #fed7aa;
+            padding: 9px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .api-info i {
+            font-size: 15px;
+        }
+
+        .loader-box {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .loader {
+            width: 45px;
+            height: 45px;
+            border: 4px solid #fed7aa;
+            border-top-color: #6a238e;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        .loader-box p {
+            color: #78716c;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .error-box {
+            display: none;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .error-box i {
+            font-size: 28px;
+        }
+
+        .error-box p {
+            margin: 10px 0 15px;
+            font-size: 14px;
+        }
+
+        .retry-btn {
+            border: none;
+            background: #dc2626;
+            color: white;
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .retry-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* =========================
+           TEAM CARD
+        ========================= */
+
+        .team-card {
+            height: 100%;
+            background: white;
+            border: 1px solid #e7e5e4;
+            border-radius: 14px;
+            padding: 28px;
+            transition: 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-6px);
+            border-color: #673d7f;
+            box-shadow: 0 15px 35px rgba(41, 37, 36, 0.08);
+        }
+
+        .team-avatar {
+            width: 65px;
+            height: 65px;
+            background: #292524;
+            color: #7a2e96;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .team-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .team-username {
+            color: #6a2783;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .team-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #78716c;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .team-detail i {
+            color: #662f7a;
+        }
+
+        .team-company {
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #e7e5e4;
+            font-size: 12px;
+            color: #57534e;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            background: white;
+        }
+
+        .about-box {
+            background: #292524;
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+        }
+
+        .about-box h2 {
+            font-size: 38px;
+            font-weight: 800;
+        }
+
+        .about-box p {
+            color: #d6d3d1;
+            line-height: 1.8;
+        }
+
+        .about-number {
+            background: #44403c;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .about-number strong {
+            display: block;
+            color: #62366d;
+            font-size: 30px;
+        }
+
+        .about-number span {
+            color: #d6d3d1;
+            font-size: 12px;
+        }
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            background: #fff7ed;
+        }
+
+        .contact-box {
+            background: #292524;
+            padding: 50px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .contact-box h2 {
+            font-size: 38px;
+            font-weight: 800;
+        }
+
+        .contact-box>p {
+            color: #d6d3d1;
+            line-height: 1.8;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 23px;
+        }
+
+        .contact-info i {
+            color: #7f3987;
+            font-size: 20px;
+        }
+
+        .contact-info p {
+            color: #a8a29e;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+        }
+
+        .contact-form label {
+            color: #454242;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            padding: 12px 14px;
+            border: 1px solid #d6d3d1;
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            border-color: #7a308d;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+        }
+
+        .success-message {
+            display: none;
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #1c1917;
+            color: white;
+            padding: 55px 0 25px;
+        }
+
+        footer p {
+            color: #a8a29e;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #a8a29e;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #7a2787;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            width: 38px;
+            height: 38px;
+            background: #292524;
+            color: #d6d3d1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .social-icons a:hover {
+            background: #822094;
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid #44403c;
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            color: #78716c;
+            font-size: 13px;
+        }
+
+        /* =========================
+           BACK TO TOP
+        ========================= */
+
+        #backToTop {
+            display: none;
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #73257f;
+            color: white;
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 991px) {
+
+            .hero-visual {
+                margin-top: 40px;
+            }
+
+            .about-box,
+            .contact-box {
+                padding: 35px;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            section {
+                padding: 65px 0;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .about-box,
+            .contact-box {
+                padding: 25px;
+            }
+
+            .about-box h2,
+            .contact-box h2 {
+                font-size: 30px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+
+        <div class="container">
+
+            <a class="navbar-brand" href="#home">
+                Nova<span>Tech</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarMenu">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">
+                            Services
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#team">
+                            Team
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">
+                            Contact
+                        </a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+
+                        <a class="nav-link nav-btn text-center" href="#team">
+                            Meet Our Team
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+     HERO
+========================= -->
+
+    <section class="hero" id="home">
+
+        <div class="container">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <span class="hero-badge">
+
+                        <i class="bi bi-cloud-arrow-down"></i>
+
+                        API Powered Digital Solutions
+
+                    </span>
+
+                    <h1>
+
+                        Build Better.
+                        <span>Grow Faster.</span>
+
+                    </h1>
+
+                    <p>
+
+                        We create modern digital experiences powered by
+                        smart technologies and real-time data integration.
+
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#team" class="btn-main">
+                            Load Team Data
+                            <i class="bi bi-arrow-down ms-1"></i>
+                        </a>
+
+                        <a href="#services" class="btn-outline">
+                            Explore Services
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="dashboard">
+
+                        <div class="dashboard-top">
+
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+
+                        </div>
+
+                        <div class="dashboard-content">
+
+                            <div class="dashboard-title">
+
+                                API Integration Status
+
+                            </div>
+
+                            <div class="api-status">
+
+                                <small>
+                                    Public API Connection
+                                </small>
+
+                                <h3>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Connected
+                                </h3>
+
+                                <div class="api-line">
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     SERVICES
+========================= -->
+
+    <section class="services" id="services">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <div class="section-label">
+                    What We Do
+                </div>
+
+                <h2 class="section-title">
+                    Our Services
+                </h2>
+
+                <p class="section-text mx-auto">
+
+                    Complete digital solutions designed to make
+                    businesses faster and smarter.
+
+                </p>
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+
+                        <h4>
+                            Web Development
+                        </h4>
+
+                        <p>
+                            Modern responsive websites with clean
+                            interfaces and powerful functionality.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            <i class="bi bi-phone"></i>
+                        </div>
+
+                        <h4>
+                            App Development
+                        </h4>
+
+                        <p>
+                            User-friendly mobile applications designed
+                            for smooth performance.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="service-card">
+
+                        <div class="service-icon">
+                            <i class="bi bi-database"></i>
+                        </div>
+
+                        <h4>
+                            API Integration
+                        </h4>
+
+                        <p>
+                            Connect applications with external APIs
+                            and display real-time data dynamically.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     API TEAM SECTION
+========================= -->
+
+    <section class="team-section" id="team">
+
+        <div class="container">
+
+            <div class="text-center mb-4">
+
+                <div class="section-label">
+                    API Integration
+                </div>
+
+                <h2 class="section-title">
+                    Our Team
+                </h2>
+
+                <p class="section-text mx-auto">
+
+                    Team information below is loaded dynamically
+                    from a public REST API.
+
+                </p>
+
+            </div>
+
+
+            <div class="text-center">
+
+                <div class="api-info">
+
+                    <i class="bi bi-cloud-check"></i>
+
+                    Data Source:
+                    JSONPlaceholder REST API
+
+                </div>
+
+            </div>
+
+
+            <!-- LOADER -->
+
+            <div class="loader-box" id="loader">
+
+                <div class="loader"></div>
+
+                <p>
+                    Loading team information...
+                </p>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div class="error-box" id="errorBox">
+
+                <i class="bi bi-exclamation-triangle"></i>
+
+                <h5 class="mt-2">
+                    Unable to Load Data
+                </h5>
+
+                <p id="errorText">
+                    Something went wrong while fetching data.
+                </p>
+
+                <button class="retry-btn" id="retryButton">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Try Again
+                </button>
+
+            </div>
+
+
+            <!-- API DATA -->
+
+            <div class="row g-4" id="teamContainer"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     ABOUT
+========================= -->
+
+    <section class="about" id="about">
+
+        <div class="container">
+
+            <div class="about-box">
+
+                <div class="row align-items-center g-5">
+
+                    <div class="col-lg-7">
+
+                        <div class="section-label">
+                            About Us
+                        </div>
+
+                        <h2>
+                            Technology powered by innovation.
+                        </h2>
+
+                        <p class="mt-3">
+
+                            NovaTech combines modern design,
+                            development and API technologies to
+                            create useful digital experiences.
+
+                        </p>
+
+                        <p>
+
+                            Public APIs allow applications to
+                            communicate with external services
+                            and use their data dynamically.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-lg-5">
+
+                        <div class="row g-3">
+
+                            <div class="col-6">
+
+                                <div class="about-number">
+
+                                    <strong>10+</strong>
+
+                                    <span>
+                                        API Records
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <div class="about-number">
+
+                                    <strong>24/7</strong>
+
+                                    <span>
+                                        Availability
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <div class="about-number">
+
+                                    <strong>100%</strong>
+
+                                    <span>
+                                        Dynamic Data
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <div class="about-number">
+
+                                    <strong>REST</strong>
+
+                                    <span>
+                                        API Technology
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     CONTACT
+========================= -->
+
+    <section class="contact" id="contact">
+
+        <div class="container">
+
+            <div class="contact-box">
+
+                <div class="row g-5">
+
+                    <div class="col-lg-5">
+
+                        <div class="section-label">
+                            Get In Touch
+                        </div>
+
+                        <h2>
+                            Let's build something great.
+                        </h2>
+
+                        <p class="mt-3">
+
+                            Have an idea or project in mind?
+                            Send us a message.
+
+                        </p>
+
+
+                        <div class="contact-info">
+
+                            <i class="bi bi-envelope"></i>
+
+                            <div>
+
+                                <strong>Email</strong>
+
+                                <p>
+                                    hello@novatech.com
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="contact-info">
+
+                            <i class="bi bi-telephone"></i>
+
+                            <div>
+
+                                <strong>Phone</strong>
+
+                                <p>
+                                    +91 98765 43210
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-7">
+
+                        <div class="success-message" id="successMessage">
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Message submitted successfully!
+
+                        </div>
+
+
+                        <form class="contact-form" id="contactForm">
+
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+
+                                    <label>
+                                        Full Name
+                                    </label>
+
+                                    <input type="text" id="name" class="form-control" placeholder="Enter your name"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label>
+                                        Email
+                                    </label>
+
+                                    <input type="email" id="email" class="form-control" placeholder="Enter your email"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-12">
+
+                                    <label>
+                                        Message
+                                    </label>
+
+                                    <textarea id="message" class="form-control" rows="5"
+                                        placeholder="Write your message..." required></textarea>
+
+                                </div>
+
+
+                                <div class="col-12">
+
+                                    <button type="submit" class="btn-main w-100">
+
+                                        Send Message
+
+                                        <i class="bi bi-send ms-1"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <div class="container">
+
+            <div class="row g-4">
+
+                <div class="col-lg-5">
+
+                    <h5>
+
+                        Nova
+                        <span style="color:#fb923c;">
+                            Tech
+                        </span>
+
+                    </h5>
+
+                    <p>
+
+                        Creating modern digital experiences
+                        powered by technology and innovation.
+
+                    </p>
+
+                    <div class="social-icons">
+
+                        <a href="#">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-lg-2">
+
+                    <h5>
+                        Quick Links
+                    </h5>
+
+                    <ul class="footer-links">
+
+                        <li>
+                            <a href="#home">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#services">
+                                Services
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#team">
+                                Team
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#contact">
+                                Contact
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="col-6 col-lg-2">
+
+                    <h5>
+                        API
+                    </h5>
+
+                    <ul class="footer-links">
+
+                        <li>
+                            <a href="#team">
+                                Team Data
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#team">
+                                REST API
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#team">
+                                Dynamic Data
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <div class="col-lg-3">
+
+                    <h5>
+                        Contact
+                    </h5>
+
+                    <p>
+                        <i class="bi bi-envelope me-2"></i>
+                        hello@novatech.com
+                    </p>
+
+                    <p>
+                        <i class="bi bi-telephone me-2"></i>
+                        +91 98765 43210
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="copyright">
+
+                ©
+                <span id="currentYear"></span>
+                NovaTech. All Rights Reserved.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- BACK TO TOP -->
+
+    <button id="backToTop">
+
+        <i class="bi bi-arrow-up"></i>
+
+    </button>
+
+
+    <!-- Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <script>
+
+        /* =====================================================
+           PUBLIC API
+        ===================================================== */
+
+        const API_URL =
+            "https://jsonplaceholder.typicode.com/users";
+
+
+        /* =====================================================
+           DOM ELEMENTS
+        ===================================================== */
+
+        const teamContainer =
+            document.getElementById("teamContainer");
+
+        const loader =
+            document.getElementById("loader");
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+        const errorText =
+            document.getElementById("errorText");
+
+        const retryButton =
+            document.getElementById("retryButton");
+
+
+        /* =====================================================
+           FETCH TEAM DATA
+        ===================================================== */
+
+        async function loadTeamData() {
+
+            /* Show loader */
+
+            loader.style.display = "block";
+
+            /* Hide previous data */
+
+            teamContainer.innerHTML = "";
+
+            /* Hide error */
+
+            errorBox.style.display = "none";
+
+
+            try {
+
+                /* API request */
+
+                const response =
+                    await fetch(API_URL);
+
+
+                /* Check HTTP response */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned an error."
+                    );
+
+                }
+
+
+                /* Convert response to JSON */
+
+                const users =
+                    await response.json();
+
+
+                /* Check data */
+
+                if (
+                    !Array.isArray(users) ||
+                    users.length === 0
+                ) {
+
+                    throw new Error(
+                        "No team data found."
+                    );
+
+                }
+
+
+                /* Display data */
+
+                displayTeam(users);
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "API Error:",
+                    error
+                );
+
+
+                errorText.textContent =
+                    "Unable to load team information. Please try again.";
+
+
+                errorBox.style.display =
+                    "block";
+
+            }
+
+
+            finally {
+
+                /* Hide loader */
+
+                loader.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DISPLAY API DATA
+        ===================================================== */
+
+        function displayTeam(users) {
+
+            teamContainer.innerHTML = "";
+
+
+            users.forEach(function (user) {
+
+                /* Get initials */
+
+                const initials =
+                    user.name
+                        .split(" ")
+                        .map(function (word) {
+                            return word.charAt(0);
+                        })
+                        .join("")
+                        .substring(0, 2)
+                        .toUpperCase();
+
+
+                /* Create card */
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "col-md-6 col-lg-4";
+
+
+                card.innerHTML = `
+
+                <div class="team-card">
+
+                    <div class="team-avatar">
+                        ${initials}
+                    </div>
+
+                    <h4>
+                        ${user.name}
+                    </h4>
+
+                    <div class="team-username">
+                        @${user.username}
+                    </div>
+
+                    <div class="team-detail">
+
+                        <i class="bi bi-envelope"></i>
+
+                        ${user.email}
+
+                    </div>
+
+                    <div class="team-detail">
+
+                        <i class="bi bi-telephone"></i>
+
+                        ${user.phone}
+
+                    </div>
+
+                    <div class="team-detail">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        ${user.address.city}
+
+                    </div>
+
+                    <div class="team-company">
+
+                        <i class="bi bi-building"></i>
+
+                        ${user.company.name}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+                /* Add card to page */
+
+                teamContainer.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =====================================================
+           RETRY API
+        ===================================================== */
+
+        retryButton.addEventListener(
+            "click",
+            loadTeamData
+        );
+
+
+        /* =====================================================
+           CONTACT FORM
+        ===================================================== */
+
+        const contactForm =
+            document.getElementById("contactForm");
+
+        const successMessage =
+            document.getElementById("successMessage");
+
+
+        contactForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                successMessage.style.display =
+                    "block";
+
+
+                contactForm.reset();
+
+
+                setTimeout(function () {
+
+                    successMessage.style.display =
+                        "none";
+
+                }, 4000);
+
+            }
+        );
+
+
+        /* =====================================================
+           BACK TO TOP
+        ===================================================== */
+
+        const backToTop =
+            document.getElementById("backToTop");
+
+
+        window.addEventListener(
+            "scroll",
+            function () {
+
+                if (window.scrollY > 400) {
+
+                    backToTop.style.display =
+                        "block";
+
+                } else {
+
+                    backToTop.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        backToTop.addEventListener(
+            "click",
+            function () {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        /* =====================================================
+           CURRENT YEAR
+        ===================================================== */
+
+        document.getElementById(
+            "currentYear"
+        ).textContent =
+            new Date().getFullYear();
+
+
+        /* =====================================================
+           LOAD API DATA ON PAGE LOAD
+        ===================================================== */
+
+        loadTeamData();
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CRUD API Application</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fff7ed;
+            color: #431407;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #7c2d12;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #fed7aa;
+            font-size: 15px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .form-section {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            color: #7c2d12;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .form-group input:focus {
+            border-color: #ea580c;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .add-btn {
+            background: #c2410c;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #9a3412;
+        }
+
+        .cancel-btn {
+            background: #fed7aa;
+            color: #7c2d12;
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background: #fdba74;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .users-section {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            color: #7c2d12;
+        }
+
+        .refresh-btn {
+            background: #ea580c;
+            color: white;
+        }
+
+        .refresh-btn:hover {
+            background: #c2410c;
+        }
+
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .user-card {
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 20px;
+            background: #fffaf5;
+        }
+
+        .user-card h3 {
+            color: #7c2d12;
+            margin-bottom: 12px;
+        }
+
+        .user-card p {
+            margin: 7px 0;
+            color: #78350f;
+            font-size: 14px;
+        }
+
+        .user-card strong {
+            color: #431407;
+        }
+
+        .actions {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: #9a3412;
+            display: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #92400e;
+        }
+
+        @media (max-width: 800px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .user-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>CRUD API Application</h1>
+        <p>Perform Create, Read, Update and Delete operations using REST API</p>
+    </header>
+
+    <div class="container">
+
+        <!-- FORM SECTION -->
+        <div class="form-section">
+
+            <h2 id="formTitle">Add New User</h2>
+
+            <form id="userForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter email" required>
+                    </div>
+
+                </div>
+
+                <div class="button-group">
+
+                    <button type="submit" class="add-btn" id="submitBtn">
+                        Add User
+                    </button>
+
+                    <button type="button" class="cancel-btn" id="cancelBtn">
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div id="statusMessage" class="status"></div>
+
+        </div>
+
+
+        <!-- USERS SECTION -->
+        <div class="users-section">
+
+            <div class="section-header">
+
+                <h2>User List</h2>
+
+                <button class="refresh-btn" onclick="fetchUsers()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div id="loading" class="loading">
+                Loading users...
+            </div>
+
+            <div id="userGrid" class="user-grid"></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const API_URL = "https://jsonplaceholder.typicode.com/users";
+
+        let users = [];
+        let editingUserId = null;
+
+
+        /* =========================================
+           READ - GET USERS
+        ========================================= */
+
+        async function fetchUsers() {
+
+            const loading = document.getElementById("loading");
+            const userGrid = document.getElementById("userGrid");
+
+            loading.style.display = "block";
+            userGrid.innerHTML = "";
+
+            try {
+
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch users");
+                }
+
+                users = await response.json();
+
+                displayUsers();
+
+            } catch (error) {
+
+                showStatus("Unable to load users.", "error");
+
+                console.error(error);
+
+            } finally {
+
+                loading.style.display = "none";
+            }
+        }
+
+
+        /* =========================================
+           DISPLAY USERS
+        ========================================= */
+
+        function displayUsers() {
+
+            const userGrid = document.getElementById("userGrid");
+
+            userGrid.innerHTML = "";
+
+            if (users.length === 0) {
+
+                userGrid.innerHTML =
+                    `<div class="empty">No users found.</div>`;
+
+                return;
+            }
+
+
+            users.forEach(user => {
+
+                const card = document.createElement("div");
+
+                card.className = "user-card";
+
+                card.innerHTML = `
+
+                    <h3>${user.name}</h3>
+
+                    <p>
+                        <strong>ID:</strong>
+                        ${user.id}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        ${user.email}
+                    </p>
+
+                    <p>
+                        <strong>Username:</strong>
+                        ${user.username || "N/A"}
+                    </p>
+
+                    <div class="actions">
+
+                        <button
+                            class="edit-btn"
+                            onclick="editUser(${user.id})">
+                            Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteUser(${user.id})">
+                            Delete
+                        </button>
+
+                    </div>
+                `;
+
+                userGrid.appendChild(card);
+
+            });
+        }
+
+
+        /* =========================================
+           CREATE - POST USER
+        ========================================= */
+
+        document.getElementById("userForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const name =
+                    document.getElementById("name").value.trim();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+
+                if (editingUserId !== null) {
+
+                    await updateUser(
+                        editingUserId,
+                        name,
+                        email
+                    );
+
+                } else {
+
+                    await createUser(
+                        name,
+                        email
+                    );
+
+                }
+
+            });
+
+
+        async function createUser(name, email) {
+
+            try {
+
+                const response = await fetch(API_URL, {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        name: name,
+                        email: email
+                    })
+
+                });
+
+
+                if (!response.ok) {
+                    throw new Error("Failed to create user");
+                }
+
+
+                const newUser = await response.json();
+
+
+                /*
+                    JSONPlaceholder fake API
+                    usually returns ID 11.
+                    We add the user locally so
+                    it appears in our UI.
+                */
+
+                newUser.id =
+                    users.length > 0
+                        ? Math.max(...users.map(user => user.id)) + 1
+                        : 1;
+
+
+                users.unshift(newUser);
+
+                displayUsers();
+
+                resetForm();
+
+                showStatus(
+                    "User created successfully!",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                showStatus(
+                    "Unable to create user.",
+                    "error"
+                );
+
+                console.error(error);
+            }
+        }
+
+
+        /* =========================================
+           UPDATE - PUT USER
+        ========================================= */
+
+        function editUser(id) {
+
+            const user =
+                users.find(user => user.id === id);
+
+            if (!user) {
+                return;
+            }
+
+
+            document.getElementById("name").value =
+                user.name;
+
+            document.getElementById("email").value =
+                user.email;
+
+
+            editingUserId = id;
+
+
+            document.getElementById("formTitle")
+                .textContent = "Update User";
+
+            document.getElementById("submitBtn")
+                .textContent = "Update User";
+
+            document.getElementById("cancelBtn")
+                .style.display = "block";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        async function updateUser(id, name, email) {
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/${id}`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            id: id,
+                            name: name,
+                            email: email
+                        })
+                    }
+                );
+
+
+                if (!response.ok) {
+                    throw new Error("Failed to update user");
+                }
+
+
+                const updatedUser =
+                    await response.json();
+
+
+                /*
+                    Update local array
+                    because JSONPlaceholder
+                    does not permanently save data.
+                */
+
+                const index =
+                    users.findIndex(
+                        user => user.id === id
+                    );
+
+
+                if (index !== -1) {
+
+                    users[index].name =
+                        updatedUser.name;
+
+                    users[index].email =
+                        updatedUser.email;
+                }
+
+
+                displayUsers();
+
+                resetForm();
+
+
+                showStatus(
+                    "User updated successfully!",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                showStatus(
+                    "Unable to update user.",
+                    "error"
+                );
+
+                console.error(error);
+            }
+        }
+
+
+        /* =========================================
+           DELETE - DELETE USER
+        ========================================= */
+
+        async function deleteUser(id) {
+
+            const confirmDelete =
+                confirm("Are you sure you want to delete this user?");
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/${id}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                if (!response.ok) {
+                    throw new Error("Failed to delete user");
+                }
+
+
+                /*
+                    Remove user from local array
+                */
+
+                users =
+                    users.filter(
+                        user => user.id !== id
+                    );
+
+
+                displayUsers();
+
+
+                showStatus(
+                    "User deleted successfully!",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                showStatus(
+                    "Unable to delete user.",
+                    "error"
+                );
+
+                console.error(error);
+            }
+        }
+
+
+        /* =========================================
+           CANCEL UPDATE
+        ========================================= */
+
+        document.getElementById("cancelBtn")
+            .addEventListener("click", function () {
+
+                resetForm();
+
+            });
+
+
+        /* =========================================
+           RESET FORM
+        ========================================= */
+
+        function resetForm() {
+
+            document.getElementById("userForm").reset();
+
+            editingUserId = null;
+
+            document.getElementById("formTitle")
+                .textContent = "Add New User";
+
+            document.getElementById("submitBtn")
+                .textContent = "Add User";
+
+            document.getElementById("cancelBtn")
+                .style.display = "none";
+        }
+
+
+        /* =========================================
+           STATUS MESSAGE
+        ========================================= */
+
+        function showStatus(message, type) {
+
+            const status =
+                document.getElementById("statusMessage");
+
+            status.textContent = message;
+
+            status.className =
+                "status " + type;
+
+            status.style.display = "block";
+
+
+            setTimeout(function () {
+
+                status.style.display = "none";
+
+            }, 3000);
+        }
+
+
+        /* =========================================
+           LOAD USERS WHEN PAGE OPENS
+        ========================================= */
+
+        fetchUsers();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans using Flexbox</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Flex Container */
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        /* Pricing Card */
+        .card {
+            background: white;
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Price */
+        .price {
+            font-size: 30px;
+            color: #007BFF;
+            margin: 15px 0;
+        }
+
+        /* Features */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Button */
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pricing Plans</h1>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>Basic</h2>
+            <div class="price">₹299/month</div>
+
+            <ul>
+                <li>5 GB Storage</li>
+                <li>10 Users</li>
+                <li>Email Support</li>
+            </ul>
+
+            <button>Choose Plan</button>
+        </div>
+
+        <div class="card">
+            <h2>Standard</h2>
+            <div class="price">₹599/month</div>
+
+            <ul>
+                <li>20 GB Storage</li>
+                <li>50 Users</li>
+                <li>24/7 Support</li>
+            </ul>
+
+            <button>Choose Plan</button>
+        </div>
+
+        <div class="card">
+            <h2>Premium</h2>
+            <div class="price">₹999/month</div>
+
+            <ul>
+                <li>100 GB Storage</li>
+                <li>Unlimited Users</li>
+                <li>Priority Support</li>
+            </ul>
+
+            <button>Choose Plan</button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

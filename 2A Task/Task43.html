@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Quote Generator</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:450px;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    text-align:center;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+#quote{
+    font-size:20px;
+    font-style:italic;
+    color:#0d6efd;
+    margin:20px 0;
+    min-height:80px;
+}
+
+button{
+    padding:12px 20px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0b5ed7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Random Quote Generator</h2>
+
+<p id="quote">
+Click the button to get a quote.
+</p>
+
+<button onclick="generateQuote()">
+Generate Quote
+</button>
+
+</div>
+
+<script>
+
+// Quotes Array
+const quotes = [
+    "Success is the sum of small efforts repeated every day.",
+    "Believe in yourself and all that you are.",
+    "Dream big and dare to fail.",
+    "Never stop learning because life never stops teaching.",
+    "Hard work beats talent when talent doesn't work hard.",
+    "Your future is created by what you do today.",
+    "Stay positive, work hard, and make it happen.",
+    "Every day is a new opportunity to grow."
+];
+
+// Function to Generate Random Quote
+function generateQuote(){
+
+    let randomIndex = Math.floor(Math.random() * quotes.length);
+
+    document.getElementById("quote").innerHTML = quotes[randomIndex];
+
+}
+
+</script>
+
+</body>
+</html>

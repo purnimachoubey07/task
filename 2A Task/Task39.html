@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debounce Search</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #0d6efd;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Debounce Search</h2>
+
+        <input type="text" id="search" placeholder="Type something..." onkeyup="debouncedSearch()">
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        // Custom Debounce Function
+        function debounce(func, delay) {
+
+            let timer;
+
+            return function () {
+
+                clearTimeout(timer);
+
+                timer = setTimeout(func, delay);
+
+            };
+
+        }
+
+        // Search Function
+        function search() {
+
+            let text = document.getElementById("search").value;
+
+            document.getElementById("result").innerHTML =
+                "Searching for: " + text;
+
+        }
+
+        // Debounced Function
+        const debouncedSearch = debounce(search, 500);
+
+    </script>
+
+</body>
+
+</html>
