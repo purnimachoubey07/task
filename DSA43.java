@@ -1,8 +1,8 @@
 public class DSA43 {
 
     static boolean canAllocate(int[] books,
-                               int students,
-                               int maxPages) {
+            int students,
+            int maxPages) {
 
         int studentCount = 1;
         int pages = 0;
@@ -12,8 +12,7 @@ public class DSA43 {
             if (pages + books[i] <= maxPages) {
 
                 pages = pages + books[i];
-            }
-            else {
+            } else {
 
                 studentCount++;
 
@@ -58,8 +57,7 @@ public class DSA43 {
 
                 // Try smaller maximum
                 high = mid - 1;
-            }
-            else {
+            } else {
 
                 // Need more pages
                 low = mid + 1;
@@ -71,14 +69,13 @@ public class DSA43 {
 
     public static void main(String[] args) {
 
-        int[] books = {12, 34, 67, 90};
+        int[] books = { 12, 34, 67, 90 };
 
         int students = 2;
 
         int answer = bookAllocation(books, students);
 
         System.out.println(
-            "Minimum Maximum Pages: " + answer
-        );
+                "Minimum Maximum Pages: " + answer);
     }
 }
